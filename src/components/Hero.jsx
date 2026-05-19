@@ -400,7 +400,7 @@ export default function Hero() {
             {/* Stats row */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, width: "100%" }}>
               {[
-                { num: "5+", label: "Years" },
+                { num: "2+", label: "Years Experience" },
                 { num: "30+", label: "Projects" },
                 { num: "10+", label: "Clients" },
               ].map(({ num, label }) => (

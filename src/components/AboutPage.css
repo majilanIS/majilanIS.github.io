@@ -1,11 +1,14 @@
 /* ===== GLOBAL PAGE ===== */
 .about-container {
   padding: 48px 36px;
-  color: #ffffff;
-  background: radial-gradient(circle at top, #111827, #0b0f19);
+  /* use global theme variables set on :root for consistency */
+  background: radial-gradient(circle at top, var(--bg, #111827), var(--bgNav, #0b0f19));
   min-height: 100vh;
   font-family: "Inter", "Arial", sans-serif;
   margin-left: 250px;
+}
+.about-container {
+  color: var(--text, #ffffff);
 }
 
 /* ===== LEFT SIDE (ABOUT TEXT) ===== */
@@ -18,7 +21,7 @@
 .about-top h1 {
   font-size: 42px;
   margin-bottom: 20px;
-  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+  background: linear-gradient(90deg, var(--accent, #60a5fa), #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -26,7 +29,7 @@
 .about-top p {
   max-width: 820px;
   line-height: 1.8;
-  color: #cbd5e1;
+  color: var(--text-sub, #cbd5e1);
   margin-bottom: 15px;
   font-size: 16px;
 }
@@ -44,7 +47,7 @@
 .about-section h2 {
   font-size: 20px;
   margin-bottom: 12px;
-  color: #93c5fd;
+  color: var(--accent, #93c5fd);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -65,6 +68,8 @@
   backdrop-filter: blur(6px);
   transition: all 0.3s ease;
   position: relative;
+  border: 1px solid var(--border, rgba(255,255,255,0.03));
+  color: var(--text, #fff);
 }
 
 /* glowing dot */
@@ -75,7 +80,7 @@
   top: 18px;
   width: 10px;
   height: 10px;
-  background: #60a5fa;
+  background: var(--accent, #60a5fa);
   border-radius: 50%;
   box-shadow: 0 0 10px #60a5fa;
 }

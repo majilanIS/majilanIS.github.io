@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AboutMe() {
   return (
-    <section style={{ padding: "40px", color: "#fff", fontFamily: "Arial" }}>
+    <section style={{ padding: "40px" }}>
       <h1>About Me</h1>
 
       <p style={{ maxWidth: "800px", lineHeight: "1.6" }}>
@@ -11,14 +11,12 @@ export default function AboutMe() {
       </p>
 
       <p style={{ maxWidth: "800px", lineHeight: "1.6" }}>
-        I specialize in building scalable web applications and AI-driven systems using
-        Node.js, Express, React, and Python. I enjoy designing clean backend architectures,
-        developing RESTful APIs, and working with modern databases and AI technologies like RAG.
+        I build scalable web apps and AI systems using Node.js, React, and Python. I focus on
+        clean backend architectures, reliable APIs, and pragmatic AI integrations (RAG).
       </p>
 
       <p style={{ maxWidth: "800px", lineHeight: "1.6" }}>
-        My interests include backend engineering, machine learning, and building real-world
-        systems that solve practical problems—especially in agriculture, education, and automation.
+        Interests: backend engineering, ML, and practical systems for education and automation.
       </p>
     </section>
   );
