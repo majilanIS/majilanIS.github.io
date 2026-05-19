@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { X, Send, Sparkles } from "lucide-react";
 
 export function ChatGroq({ onClose }: { onClose: () => void }) {
   const [messages, setMessages] = useState([
@@ -370,37 +369,75 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
     extraSystemMessages.push({ role: "system", content: `LinkedIn: ${LINKEDIN_URL}` });
 
     try {
-      const res = await fetch(
-        "https://api.groq.com/openai/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
+        }),
+      });
+
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        const text = await res.text().catch(() => "<unreadable>");
+        console.error("Failed to parse Groq response as JSON:", parseErr, text);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `⚠️ No reply from AI (invalid JSON response). ${res.status ? `Status: ${res.status}` : ""}`,
           },
-          body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
-            messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
-          }),
-        }
-      );
+        ]);
+        return;
+      }
 
-      const data = await res.json();
+      if (!res.ok) {
+        console.error("Groq API error:", res.status, data);
+        const serverMsg = data?.error?.message || data?.message || JSON.stringify(data);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `⚠️ Groq error ${res.status}: ${serverMsg}`,
+          },
+        ]);
+        return;
+      }
 
+      // Support several possible response shapes from LLM providers
       const reply =
-        data.choices?.[0]?.message?.content || "⚠️ No reply from AI";
+        data?.choices?.[0]?.message?.content ||
+        data?.choices?.[0]?.text ||
+        data?.output?.[0]?.content?.[0]?.text ||
+        data?.result ||
+        null;
 
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
-      setIsTyping(true);
+      if (!reply) {
+        console.error("Unexpected Groq response shape:", data);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: "⚠️ No reply from AI (unexpected response). Check console for details.",
+          },
+        ]);
+      } else {
+        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+        setIsTyping(true);
+      }
     } catch (err) {
       console.error("Error chatting with Groq:", err);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content:
-            "⚠️ Sorry, I couldn't process that request. Please try again.",
+          content: "⚠️ Sorry, I couldn't process that request. Please try again.",
         },
       ]);
     } finally {
