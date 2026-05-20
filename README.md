@@ -1,16 +1,26 @@
-# React + Vite
+# Portfolio site (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Minimal portfolio built with React and Vite. Focuses on a responsive shell, a small AI chat widget, and a Supabase-powered contact form.
 
-Currently, two official plugins are available:
+Quickstart
+- Install dependencies: `npm install`
+- Run dev server: `npm run dev`
+- Build for production: `npm run build`
+- Preview production build: `npm run preview`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Required environment variables (create a `.env` file at project root):
+- `VITE_GROQ_API_KEY` — Groq AI API key used by the chat widget
+- `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` — Supabase project URL and anon key (contact form)
 
-## React Compiler
+Example `.env` snippet:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+VITE_GROQ_API_KEY=your_groq_key_here
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-## Expanding the ESLint configuration
+Troubleshooting
+- Restart the dev server after editing `.env` so Vite picks up new env values.
+- If the Groq chat returns 401, verify `VITE_GROQ_API_KEY` is valid and has required permissions.
+- If TypeScript complains about `import.meta.env`, add a `vite-env.d.ts` with an `ImportMeta` augmentation or disable strict checks for the file.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If you want me to, I can add a short `vite-env.d.ts` snippet or update deploy instructions.
