@@ -71,11 +71,9 @@ function App() {
       {/* Floating AI Chat Button - Fixed at right-bottom for whole portfolio */}
       {!chatOpen && (
         <button
+          className="chat-fab"
           onClick={() => setChatOpen(true)}
           style={{
-            position: "fixed",
-            bottom: 32,
-            right: 32,
             width: 60,
             height: 60,
             borderRadius: "50%",
@@ -107,7 +105,7 @@ function App() {
 
       {/* AI Chat Modal - Fixed positioning for whole portfolio */}
       {chatOpen && (
-        <div style={{ position: "fixed", bottom: 32, right: 32, zIndex: 999 }}>
+        <div className="chat-fab-shell">
           <ChatGroq onClose={() => setChatOpen(false)} />
         </div>
       )}

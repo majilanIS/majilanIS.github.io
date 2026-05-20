@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "../lib/supabaseClient";
 
 /* ─── theme tokens (same as Sidebar / HeroContent) ─────────── */
 const THEMES = {
@@ -55,8 +56,8 @@ const CONTACTS = [
   {
     key: "email",
     label: "Email",
-    value: "chekole@example.com",
-    href: "mailto:chekole@example.com",
+    value: "chekolengusalem@gmail.com",
+    href: "mailto:chekolengusalem@gmail.com",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -68,7 +69,7 @@ const CONTACTS = [
     key: "github",
     label: "GitHub",
     value: "github.com/chekole",
-    href: "https://github.com/chekole",
+    href: "https://github.com/majilanIS",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 .5C5.73.5.75 5.48.75 11.76c0 4.96 3.22 9.17 7.7 10.65.56.1.76-.24.76-.54 0-.27-.01-1-.01-1.95-3.13.68-3.8-1.51-3.8-1.51-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 .17 1.55.93 1.55.93.99 1.7 2.6 1.21 3.24.93.1-.72.39-1.21.71-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.47.11-3.06 0 0 .95-.3 3.12 1.15a10.8 10.8 0 0 1 2.84-.38c.96 0 1.92.13 2.84.38 2.16-1.45 3.11-1.15 3.11-1.15.61 1.59.23 2.77.12 3.06.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.76 1.05.76 2.12 0 1.53-.01 2.77-.01 3.15 0 .3.2.65.77.54 4.48-1.48 7.69-5.69 7.69-10.65C23.25 5.48 18.27.5 12 .5z" />
@@ -78,8 +79,8 @@ const CONTACTS = [
   {
     key: "instagram",
     label: "Instagram",
-    value: "@chekole.dev",
-    href: "https://instagram.com/chekole.dev",
+    value: "@chekole26",
+    href: "https://instagram.com/chekole26",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -95,7 +96,6 @@ const FIELDS = [
   { name: "name",    label: "Full name",       type: "text",     placeholder: "John Doe",               required: true  },
   { name: "email",   label: "Email address",   type: "email",    placeholder: "john@example.com",       required: true  },
   { name: "subject", label: "Subject",         type: "text",     placeholder: "Project enquiry…",       required: true  },
-  { name: "budget",  label: "Budget (USD)",    type: "select",   options: ["< $500", "$500–$2k", "$2k–$5k", "$5k+", "Let's talk"], required: false },
   { name: "message", label: "Message",         type: "textarea", placeholder: "Tell me about your project…", required: true  },
 ];
 
@@ -103,10 +103,13 @@ const FIELDS = [
 export default function HireMe({ theme = "dark" }) {
   const t = THEMES[theme];
 
-  const [form, setForm]       = useState({ name: "", email: "", subject: "", budget: "", message: "" });
+  const [form, setForm]       = useState({ name: "", email: "", subject: "", message: "" });
   const [errors, setErrors]   = useState({});
   const [status, setStatus]   = useState(null); // null | "sending" | "sent" | "error"
+  const [submitMessage, setSubmitMessage] = useState("");
   const [focusedField, setFocusedField] = useState(null);
+
+  const applicantTable = "applicant";
 
   /* ── validation ── */
   const validate = () => {
@@ -124,13 +127,39 @@ export default function HireMe({ theme = "dark" }) {
     if (errors[e.target.name]) setErrors((er) => ({ ...er, [e.target.name]: undefined }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const e2 = validate();
-    if (Object.keys(e2).length) { setErrors(e2); return; }
+    if (Object.keys(e2).length) {
+      setErrors(e2);
+      return;
+    }
+
     setStatus("sending");
-    /* 🔌 swap this setTimeout for your real API call */
-    setTimeout(() => setStatus("sent"), 1800);
+    setSubmitMessage("");
+
+    const payload = {
+      full_name: form.name.trim(),
+      email: form.email.trim(),
+      subject: form.subject.trim(),
+      message: [
+        form.message.trim(),
+      ]
+        .filter(Boolean)
+        .join("\n\n"),
+    };
+
+    const { error } = await supabase.from(applicantTable).insert([payload]);
+
+    if (error) {
+      console.error("Applicant insert error", error);
+      setStatus("error");
+      setSubmitMessage(error.message || "Could not send your message.");
+      return;
+    }
+
+    setStatus("sent");
+    setForm({ name: "", email: "", subject: "", budget: "", message: "" });
   };
 
   /* ── shared input style ── */
@@ -155,11 +184,11 @@ export default function HireMe({ theme = "dark" }) {
         fontFamily: "'Sora', 'DM Sans', sans-serif",
         background: t.bg,
         minHeight: "100vh",
-        marginLeft: 220,
+        marginLeft: "var(--sidebar-width, 230px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "60px 56px 60px 64px",
+        padding: "60px clamp(20px, 4vw, 56px) 60px",
         transition: "background 0.4s",
       }}
     >
@@ -194,6 +223,12 @@ export default function HireMe({ theme = "dark" }) {
         @media (max-width: 860px) {
           #hire-me { margin-left: 0 !important; padding: 40px 20px !important; }
           .hire-grid { grid-template-columns: 1fr !important; }
+          .hire-form-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 1024px) {
+          .hire-grid {
+            gap: 2rem !important;
+          }
         }
       `}</style>
 
@@ -302,7 +337,10 @@ export default function HireMe({ theme = "dark" }) {
                 <button
                   className="submit-btn"
                   style={{ width: "auto", padding: "10px 28px" }}
-                  onClick={() => { setStatus(null); setForm({ name: "", email: "", subject: "", budget: "", message: "" }); }}
+                  onClick={() => {
+                    setStatus(null);
+                    setSubmitMessage("");
+                  }}
                 >
                   Send another message
                 </button>
@@ -310,7 +348,7 @@ export default function HireMe({ theme = "dark" }) {
             ) : (
               /* ── Form ── */
               <form onSubmit={handleSubmit} noValidate>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
+                <div className="hire-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
                   {/* Name */}
                   <div>
                     <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: t.labelColor, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 6 }}>
@@ -323,7 +361,7 @@ export default function HireMe({ theme = "dark" }) {
                       onChange={handleChange}
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
-                      placeholder="John Doe"
+                      placeholder="Chekole Ngusalem"
                       style={inputStyle("name")}
                     />
                     {errors.name && <p style={{ fontSize: 11.5, color: "#e05252", marginTop: 4 }}>{errors.name}</p>}
@@ -341,7 +379,7 @@ export default function HireMe({ theme = "dark" }) {
                       onChange={handleChange}
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
-                      placeholder="john@example.com"
+                      placeholder="chekole@example.com"
                       style={inputStyle("email")}
                     />
                     {errors.email && <p style={{ fontSize: 11.5, color: "#e05252", marginTop: 4 }}>{errors.email}</p>}
@@ -364,26 +402,6 @@ export default function HireMe({ theme = "dark" }) {
                     style={inputStyle("subject")}
                   />
                   {errors.subject && <p style={{ fontSize: 11.5, color: "#e05252", marginTop: 4 }}>{errors.subject}</p>}
-                </div>
-
-                {/* Budget */}
-                <div style={{ marginBottom: "1rem" }}>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: t.labelColor, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 6 }}>
-                    Budget
-                  </label>
-                  <select
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                    onFocus={() => setFocusedField("budget")}
-                    onBlur={() => setFocusedField(null)}
-                    style={{ ...inputStyle("budget"), appearance: "none", cursor: "pointer" }}
-                  >
-                    <option value="">Select a range…</option>
-                    {["< $500", "$500 – $2k", "$2k – $5k", "$5k+", "Let's talk"].map((o) => (
-                      <option key={o} value={o}>{o}</option>
-                    ))}
-                  </select>
                 </div>
 
                 {/* Message */}
@@ -423,6 +441,12 @@ export default function HireMe({ theme = "dark" }) {
                     </>
                   )}
                 </button>
+
+                {status === "error" && submitMessage && (
+                  <p style={{ marginTop: 12, fontSize: 13, color: "#e05252", lineHeight: 1.5 }}>
+                    {submitMessage}
+                  </p>
+                )}
 
                 <style>{`
                   @keyframes spin { to { transform: rotate(360deg); } }

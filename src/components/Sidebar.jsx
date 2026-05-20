@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 /* ─── theme tokens ─────────────────────────────────────────── */
 const THEMES = {
@@ -49,6 +49,7 @@ const THEMES = {
 
 export default function Sidebar({ theme, setTheme }) {
   const t = THEMES[theme] || THEMES.dark;
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { label: "Home", icon: "⌂" },
@@ -71,6 +72,7 @@ export default function Sidebar({ theme, setTheme }) {
         .sidebar {
           overflow-y: auto;
           scrollbar-width: none;
+          width: var(--sidebar-width, 230px);
         }
 
         .sidebar::-webkit-scrollbar {
@@ -131,51 +133,125 @@ export default function Sidebar({ theme, setTheme }) {
 
         @media (max-width: 900px) {
           .sidebar {
-            width: 100% !important;
-            height: 70px;
-            bottom: 0;
-            top: auto;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 18px;
+            width: calc(100% - 16px) !important;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: auto;
+            height: ${mobileMenuOpen ? "auto" : "68px"};
+            max-height: ${mobileMenuOpen ? "calc(100vh - 16px)" : "68px"};
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: ${mobileMenuOpen ? "10px" : "0"};
+            padding: ${mobileMenuOpen ? "10px 12px 12px" : "8px 12px"};
+            background: ${t.bg};
+            border-right: none;
+            border-bottom: 1px solid ${t.border};
+            border-radius: 16px;
+            box-shadow: ${t.shadow};
+            overflow: hidden;
+            padding-bottom: 2rem;
+            z-index: 1000;
           }
 
           .sidebar-logo {
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: ${mobileMenuOpen ? "0 0 8px" : "0"};
+            border-bottom: ${mobileMenuOpen ? `1px solid ${t.border}` : "none"};
           }
 
           .sidebar-nav {
-            flex-direction: row !important;
-            align-items: center;
-            gap: 18px !important;
-            padding: 0 !important;
+            display: ${mobileMenuOpen ? "flex" : "none"} !important;
+            flex: 0 0 auto;
+            flex-direction: column !important;
+            align-items: stretch;
+            gap: 8px !important;
+            padding: 4px 0 2px !important;
+            overflow: visible;
+          }
+
+          .sidebar-nav::-webkit-scrollbar {
+            display: none;
           }
 
           .nav-link {
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
             border-left: none;
-            padding: 0;
+            padding: 12px 10px;
             font-size: 13px;
+            min-width: 0;
+            white-space: normal;
+            width: 100%;
+            border-radius: 12px;
+            background: ${t.bgCard};
+            border: 1px solid ${t.border};
           }
 
           .nav-link:hover,
           .nav-link.active {
             border-left: none;
-            padding-left: 0;
+            padding-left: 10px;
           }
 
           .nav-label {
-            display: none;
+            display: block;
           }
 
           .theme-section {
-            border-top: none !important;
-            padding: 0 !important;
+            display: none !important;
           }
 
           .appearance-text {
             display: none;
           }
+
+          .theme-section > div:last-child {
+            justify-content: flex-end;
+          }
+
+          .toggle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+          }
+
+          .mobile-actions {
+            display: flex !important;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+          }
+
+          .mobile-menu-btn {
+            display: flex !important;
+          }
+
+          .desktop-title {
+            display: block;
+          }
+        }
+
+        .mobile-actions,
+        .mobile-menu-btn,
+        .desktop-title {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          border: 1.5px solid ${t.border};
+          background: ${t.toggleBg};
+          color: ${t.text};
+        }
+
+        .mobile-menu-btn:hover {
+          transform: scale(1.06);
+          border-color: ${t.accent};
         }
       `}</style>
 
@@ -206,13 +282,7 @@ export default function Sidebar({ theme, setTheme }) {
             borderBottom: `1px solid ${t.border}`,
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div
               style={{
                 width: 42,
@@ -234,7 +304,7 @@ export default function Sidebar({ theme, setTheme }) {
               C
             </div>
 
-            <div>
+            <div className="desktop-title">
               <div
                 style={{
                   fontWeight: 800,
@@ -257,6 +327,42 @@ export default function Sidebar({ theme, setTheme }) {
               </div>
             </div>
           </div>
+
+          <div className="mobile-actions">
+            <button
+              type="button"
+              className="mobile-menu-btn toggle-btn"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+              title="Menu"
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 11,
+              }}
+            >
+              ☰
+            </button>
+
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                className={`toggle-btn ${theme === "dark" ? "active" : ""}`}
+                onClick={() => setTheme("dark")}
+                title="Dark Mode"
+              >
+                🌙
+              </button>
+
+              <button
+                className={`toggle-btn ${theme === "light" ? "active" : ""}`}
+                onClick={() => setTheme("light")}
+                title="Light Mode"
+              >
+                ☀️
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* ─── Navigation ───────────────────── */}
@@ -275,6 +381,7 @@ export default function Sidebar({ theme, setTheme }) {
               key={label}
               href={`#${label.toLowerCase().replace(/\s+/g, "-")}`}
               className={`nav-link ${index === 0 ? "active" : ""}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
               <span
                 style={{

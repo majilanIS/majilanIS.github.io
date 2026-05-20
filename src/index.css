@@ -1,0 +1,29 @@
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	overflow-x: hidden;
+}
+
+img,
+video,
+svg {
+	max-width: 100%;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+	-webkit-tap-highlight-color: transparent;
+}
+

@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import ProjectCard from "./ProjectCard";
+import agrivitaDemo from "../assets/video_2026-05-20_09-06-37.mp4";
+import agrivitaImg from "../assets/image-agrivita.jpg";
+import agrispark from "../assets/image-Agrispark.jpg";
+import adwaImg from "../assets/image-adwa.jpg";
 
 const THEMES = {
   dark: {
@@ -45,18 +49,12 @@ const PROJECTS = [
     accent: "#22C55E",
     featured: true,
     filter: "ai",
-    problem:
-      "Ethiopian farmers lose 20–40% of crop yield annually to undiagnosed diseases and pest infestations. Most lack access to agronomists — a single misidentification can wipe out a season's income.",
-    description:
-      "AgriVita lets farmers scan their crops with a smartphone camera. The AI instantly identifies the disease or pest, calculates fertilizer dosage based on field size and soil data, and runs profit-maximization scenarios across treatment options. Built-in chatbot answers follow-up questions in Amharic and English.",
+    image: agrivitaImg,
+    problem: "Farmers lose 20–40% yield to undetected crop disease and pests.",
+    description: "Mobile AI: scan a plant, get diagnosis, treatment suggestions and profit-optimised options. Bilingual chat support.",
     tags: ["Python", "TensorFlow", "React Native", "Node.js", "MongoDB", "RAG", "OpenCV"],
-    stats: [
-      { label: "Accuracy", value: "94%" },
-      { label: "Scan Time", value: "<3s" },
-      { label: "Crops", value: "12+" },
-    ],
     githubUrl: "#",
-    liveUrl: null,
+    liveUrl:"https://agrivita-frontend.onrender.com/",
   },
   {
     id: "agrispark",
@@ -67,16 +65,10 @@ const PROJECTS = [
     accent: "#F59E0B",
     featured: false,
     filter: "fullstack",
-    problem:
-      "Smallholder farmers sell through middlemen at 30–50% below market price. Buyers can't verify produce quality or availability in real time.",
-    description:
-      "AgriSpark is a full-stack marketplace where farmers list produce, set prices, and receive orders directly. Buyers get live inventory and verified farmer profiles. Built with a Node.js/Express backend, React frontend, and MongoDB for flexible produce catalogues.",
+    image: agrispark,
+    problem: "Smallholders receive low prices via middlemen; buyers lack verified live inventory.",
+    description: "Peer-to-peer marketplace: verified farmers list produce and accept orders with live inventory and payments.",
     tags: ["Node.js", "Express", "React", "MongoDB", "REST API", "JWT Auth"],
-    stats: [
-      { label: "Middlemen cut", value: "0%" },
-      { label: "Stack", value: "MERN" },
-      { label: "Auth", value: "JWT" },
-    ],
     githubUrl: "https://github.com/majilanIS/AgriSpark-app",
     liveUrl: null,
   },
@@ -89,16 +81,10 @@ const PROJECTS = [
     accent: "#8B5CF6",
     featured: false,
     filter: "ai",
-    problem:
-      "Most AI assistants only support text and lack local context. Students and professionals in Ethiopia needed a bilingual assistant that also understands cultural and historical queries.",
-    description:
-      "A full-featured AI assistant supporting both text and voice input. Uses a RAG pipeline to ground answers in up-to-date documents and returns results in Amharic or English. Deployed on Vercel with a streaming response UI for near-instant feel.",
+    image: adwaImg,
+    problem: "Assistants lack voice input and local/contextual knowledge in Amharic.",
+    description: "Voice+text assistant grounded with RAG; bilingual answers and streaming UI for fast, accurate responses.",
     tags: ["Node.js", "React", "RAG", "OpenAI API", "Web Speech API", "Vercel", "Supabase"],
-    stats: [
-      { label: "Mode", value: "Voice+Text" },
-      { label: "Languages", value: "2" },
-      { label: "Pipeline", value: "RAG" },
-    ],
     githubUrl: "https://github.com/majilanIS/Adwa-AI-Assistant",
     liveUrl: "https://adwa-ai-assistant-in-text-or-voice.vercel.app",
   },
@@ -111,16 +97,9 @@ const PROJECTS = [
     accent: "#EF4444",
     featured: false,
     filter: "ai",
-    problem:
-      "Financial institutions lose billions annually to card fraud. Rule-based systems generate too many false positives, blocking legitimate transactions and frustrating customers.",
-    description:
-      "A machine learning pipeline that analyses transaction features (amount, location delta, merchant category, time patterns) to flag fraudulent activity with high precision. Trained on imbalanced datasets using SMOTE + ensemble models. Exposes a REST API for real-time scoring.",
+    problem: "Rule-based fraud detectors cause many false positives and blocked transactions.",
+    description: "Ensemble ML pipeline for real-time scoring with high precision; exposes a low-latency REST API for production use.",
     tags: ["Python", "Scikit-learn", "XGBoost", "SMOTE", "Flask", "PostgreSQL", "Docker"],
-    stats: [
-      { label: "Precision", value: "97%" },
-      { label: "False pos.", value: "↓ 60%" },
-      { label: "Latency", value: "<50ms" },
-    ],
     githubUrl: "https://github.com/majilanIS/fraud-detection",
     liveUrl: null,
   },
@@ -133,17 +112,10 @@ const PROJECTS = [
     accent: "#FF6B1A",
     featured: false,
     filter: "fullstack",
-    problem:
-      "Generic portfolio templates all look the same and fail to communicate an engineer's actual design sensibility or technical depth.",
-    description:
-      "Designed and built entirely from scratch — no component libraries, no templates. Features a sidebar nav, animated hero, interactive skills grid with category filtering, and a projects section. Fully responsive with dark/light mode toggle. Deployed on Vercel.",
+    problem: "Templates feel generic and don't showcase individual design or technical signal.",
+    description: "Hand-built React portfolio with animated hero, theme toggle and curated project demos (this site).",
     tags: ["React", "CSS-in-JS", "Vite", "Vercel", "Sora", "Responsive"],
-    stats: [
-      { label: "Libraries", value: "0" },
-      { label: "Theme", value: "Dark+Light" },
-      { label: "Deploy", value: "Vercel" },
-    ],
-    githubUrl: "#",
+    githubUrl: "https://github.com/majilanIS/majilanIS.github.io",
     liveUrl: "https://chekole.dev",
   },
 ];
@@ -193,7 +165,7 @@ export default function Projects({ theme = "dark" }) {
         position: "relative",
         overflow: "hidden",
         transition: "background 0.4s",
-        marginLeft: 250,
+        marginLeft: "var(--sidebar-width, 230px)",
       }}
     >
       <style>{`
@@ -226,6 +198,16 @@ export default function Projects({ theme = "dark" }) {
           .proj-grid { grid-template-columns: 1fr !important; }
         }
 
+        @media (max-width: 980px) {
+          .projects-shell {
+            padding: 0 clamp(20px, 4vw, 28px) !important;
+          }
+
+          .proj-grid > div {
+            grid-column: span 1 !important;
+          }
+        }
+
         .proj-cta-row {
           display: flex; align-items: center; gap: 12px;
           flex-wrap: wrap;
@@ -236,7 +218,7 @@ export default function Projects({ theme = "dark" }) {
       <div style={{ position: "absolute", top: -80, left: -60, width: 340, height: 340, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}0E 0%, transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 40, right: 0, width: 240, height: 240, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}09 0%, transparent 70%)`, pointerEvents: "none" }} />
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 40px" }}>
+      <div className="projects-shell" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
 
         {/* ── Section header ── */}
         <div style={{ ...fadeUp(0.04), marginBottom: "2.5rem" }}>
@@ -257,8 +239,8 @@ export default function Projects({ theme = "dark" }) {
             Problems I've{" "}
             <span style={{ color: t.accent }}>Solved</span>
           </h2>
-          <p style={{ fontSize: 14, color: t.textSub, maxWidth: "55ch", lineHeight: 1.72 }}>
-            Every project here started with a real problem — farmers losing crops, fraud hitting banks, knowledge locked behind language barriers. Here's what I built.
+          <p style={{ fontSize: 14, color: t.textSub, maxWidth: "55ch", lineHeight: 1.6 }}>
+            Selected, impact-driven projects with concise problem statements and clear outcomes. Click a demo to explore each project in depth.
           </p>
         </div>
 
@@ -310,7 +292,7 @@ export default function Projects({ theme = "dark" }) {
         {/* ── Bottom CTA ── */}
         <div style={{ ...fadeUp(0.3), marginTop: "2.5rem", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a
-            href="https://github.com/majilanIS"
+            href="https://github.com/majilanIS/"
             target="_blank"
             rel="noopener noreferrer"
             style={{

@@ -74,6 +74,7 @@ export default function AboutPage({ theme = "dark" }) {
   const t = THEMES[theme] || THEMES.dark;
   return (
     <div
+        id="about"
       className="about-container"
       style={{
         background: `radial-gradient(circle at top, ${t.bg}, ${t.bgNav})`,

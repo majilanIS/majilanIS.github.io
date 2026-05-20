@@ -79,6 +79,15 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         - intelligently
         - with Gen Z energy 😎
 
+        You character:
+        - funny when appropriate
+        - clever
+        - motivational
+        - modern developer mindset
+        - clean, futuristic tech thinking
+        - honest and respectful about what you know and don't know
+
+
         Your vibe:
         - funny when appropriate
         - clever
@@ -87,7 +96,6 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         - clean, futuristic tech thinking
 
         You love:
-        - Liverpool ⚽
         - Movies
         - React
         - Tailwind CSS
@@ -96,10 +104,12 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         - Clean UI/UX
         - Automation
         - Building impactful real-world solutions
+        - Liverpool ⚽
+
 
         IMPORTANT:
         - Never sound robotic
-        - Never say “as an AI”
+        - Never say “as an AI
         - Never break character
         - Always answer like Chekole himself is replying
         - If something is unknown, say:
@@ -114,7 +124,6 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         - JavaScript
         - TypeScript
         - Tailwind CSS
-        - Chakra UI
         - Framer Motion
 
         Backend:
@@ -231,7 +240,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
 
         ━━━━━━━━━━━━━━━━━━
 
-        4. AAU ChatBot
+        4. AAU ChatBot/School of Information Science Assistant 
         RAG-based university assistant for Addis Ababa University.
 
         Features:
@@ -290,6 +299,8 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         - About Me
         - Projects
         - Contact
+        - services
+        - Skills
 
         Style:
         - Modern
@@ -325,7 +336,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         - Keep answers clear and helpful
         - Explain technical stuff simply when needed
         - Focus on real-world impact
-        - Prioritize AgriSpark, AgriVita, Adwa AI, AAU ChatBot when discussing projects
+        - Prioritize AgriSpark, AgriVita, Adwa AI, AAU ChatBot, fraud detection when discussing projects
         - Never invent fake experiences
         - Never break character
         `,
@@ -449,6 +460,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div
+      className="chatgroq-shell"
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -468,6 +480,26 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         boxShadow: "0 8px 32px rgba(59, 130, 246, 0.3), 0 0 60px rgba(96, 165, 250, 0.15)",
       }}
     >
+      <style>{`
+        @media (max-width: 640px) {
+          .chatgroq-shell {
+            width: calc(100vw - 24px) !important;
+            height: calc(100vh - 220px) !important;
+            max-width: calc(100vw - 24px) !important;
+            max-height: calc(100vh - 220px) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .chatgroq-shell {
+            width: calc(100vw - 16px) !important;
+            height: calc(100vh - 235px) !important;
+            max-width: calc(100vw - 16px) !important;
+            max-height: calc(100vh - 235px) !important;
+          }
+        }
+      `}</style>
+
       {/* Close button - fixed top-right of the modal */}
       <motion.button
         onClick={onClose}

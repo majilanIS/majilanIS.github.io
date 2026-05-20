@@ -49,52 +49,52 @@ const THEMES = {
 const ALL_SKILLS = [
   // Languages & Frameworks
   { name: "JavaScript", icon: "🟨", level: 95, category: "Language", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=js" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
   { name: "Python", icon: "🐍", level: 88, category: "Language", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=python" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
   { name: "Node.js", icon: "🟢", level: 92, category: "Runtime", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=nodejs" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
   { name: "Express.js", icon: "🚂", level: 90, category: "Framework", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=express" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
   { name: "React", icon: "⚛", level: 85, category: "Frontend", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=react" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
   { name: "HTML5", icon: "🧱", level: 95, category: "Markup", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=html" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
   { name: "CSS3", icon: "🎨", level: 90, category: "Styling", group: "Languages & Frameworks",
-    iconUrl: "https://skillicons.dev/icons?i=css" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
 
   // Databases
   { name: "MongoDB", icon: "🍃", level: 88, category: "NoSQL", group: "Databases",
-    iconUrl: "https://skillicons.dev/icons?i=mongodb" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
   { name: "MySQL", icon: "🐬", level: 85, category: "SQL", group: "Databases",
-    iconUrl: "https://skillicons.dev/icons?i=mysql" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
   { name: "PostgreSQL", icon: "🐘", level: 82, category: "SQL", group: "Databases",
-    iconUrl: "https://skillicons.dev/icons?i=postgresql" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
   { name: "Supabase", icon: "⚡", level: 78, category: "BaaS", group: "Databases",
-    iconUrl: "https://skillicons.dev/icons?i=supabase" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/supabase.svg" },
   { name: "SQL Server", icon: "🗄", level: 75, category: "SQL", group: "Databases" },
 
   // DevOps & Tools
   { name: "Docker", icon: "🐳", level: 80, category: "DevOps", group: "DevOps & Tools",
-    iconUrl: "https://skillicons.dev/icons?i=docker" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
   { name: "Git", icon: "📦", level: 93, category: "VCS", group: "DevOps & Tools",
-    iconUrl: "https://skillicons.dev/icons?i=git" },
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
   { name: "GitHub", icon: "🐙", level: 93, category: "VCS", group: "DevOps & Tools",
-    iconUrl: "https://skillicons.dev/icons?i=github" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" },
   { name: "GitHub Actions", icon: "⚙️", level: 76, category: "CI/CD", group: "DevOps & Tools",
-    iconUrl: "https://skillicons.dev/icons?i=githubactions" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/githubactions.svg" },
   { name: "VS Code", icon: "💻", level: 95, category: "Editor", group: "DevOps & Tools",
-    iconUrl: "https://skillicons.dev/icons?i=vscode" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/visualstudiocode.svg" },
   { name: "Postman", icon: "📮", level: 90, category: "API", group: "DevOps & Tools",
-    iconUrl: "https://skillicons.dev/icons?i=postman" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/postman.svg" },
 
   // Cloud & Deployment
   { name: "Vercel", icon: "▲", level: 88, category: "Cloud", group: "Cloud & Deployment",
-    iconUrl: "https://skillicons.dev/icons?i=vercel" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vercel.svg" },
   { name: "Netlify", icon: "🌐", level: 85, category: "Cloud", group: "Cloud & Deployment",
-    iconUrl: "https://skillicons.dev/icons?i=netlify" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/netlify.svg" },
   { name: "Render", icon: "☁️", level: 82, category: "Cloud", group: "Cloud & Deployment",
-    iconUrl: "https://skillicons.dev/icons?i=render" },
+    iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/render.svg" },
 
   // AI & Data
   { name: "Machine Learning", icon: "🧠", level: 78, category: "AI", group: "AI & Data" },
@@ -166,7 +166,7 @@ export default function Skills({ theme = "dark" }) {
         position: "relative",
         overflow: "hidden",
         transition: "background 0.4s",
-        marginLeft: 250,
+        marginLeft: "var(--sidebar-width, 230px)",
       }}
     >
       {/* Font import */}
@@ -206,13 +206,19 @@ export default function Skills({ theme = "dark" }) {
           .skill-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
           .tabs-row { flex-wrap: wrap !important; }
         }
+
+        @media (max-width: 980px) {
+          .skills-shell {
+            padding: 0 clamp(20px, 4vw, 28px) !important;
+          }
+        }
       `}</style>
 
       {/* Background blobs */}
       <div style={{ position: "absolute", top: 0, right: 0, width: 320, height: 320, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}10 0%, transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 0, left: 200, width: 200, height: 200, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}08 0%, transparent 70%)`, pointerEvents: "none" }} />
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 40px" }}>
+      <div className="skills-shell" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
 
         {/* ── Section header ── */}
         <div style={{ ...fadeUp(0.05), marginBottom: "2.5rem" }}>

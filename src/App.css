@@ -1,0 +1,32 @@
+ :root {
+	--sidebar-width: 230px;
+	--page-gutter: clamp(20px, 4vw, 56px);
+}
+
+@media (max-width: 900px) {
+	:root {
+		--sidebar-width: 0px;
+		--page-gutter: clamp(16px, 4vw, 24px);
+	}
+}
+
+body {
+	overflow-x: hidden;
+}
+
+.chat-fab,
+.chat-fab-shell {
+	position: fixed;
+	right: calc(clamp(16px, 4vw, 32px) + env(safe-area-inset-right));
+	bottom: calc(clamp(16px, 4vw, 32px) + env(safe-area-inset-bottom));
+	z-index: 999;
+}
+
+@media (max-width: 900px) {
+	.chat-fab-shell,
+	.chat-fab {
+		right: 16px;
+		bottom: calc(84px + env(safe-area-inset-bottom));
+	}
+}
+

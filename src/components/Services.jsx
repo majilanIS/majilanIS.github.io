@@ -283,8 +283,8 @@ export default function Services({ theme = "dark" }) {
         fontFamily: "'Sora', 'DM Sans', sans-serif",
         background: t.bg,
         minHeight: "100vh",
-        marginLeft: 220,
-        padding: "64px 56px 80px 64px",
+        marginLeft: "var(--sidebar-width, 230px)",
+        padding: "64px clamp(20px, 4vw, 56px) 80px",
         transition: "background 0.4s",
       }}
     >
@@ -294,7 +294,11 @@ export default function Services({ theme = "dark" }) {
         @media (max-width: 860px) {
           #services { margin-left: 0 !important; padding: 40px 20px 60px !important; }
           .services-grid { grid-template-columns: 1fr !important; }
-          .process-row { grid-template-columns: 1fr 1fr !important; }
+          .process-row { grid-template-columns: 1fr !important; }
+          .process-connector { display: none !important; }
+        }
+        @media (max-width: 1024px) {
+          .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
         }
       `}</style>
 
@@ -320,7 +324,7 @@ export default function Services({ theme = "dark" }) {
         className="services-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
           gap: "1.2rem",
           marginBottom: "4.5rem",
         }}
@@ -356,11 +360,10 @@ export default function Services({ theme = "dark" }) {
             <div key={step} style={{ position: "relative" }}>
               {/* Connector line */}
               {i < PROCESS.length - 1 && (
-                <div style={{
+                <div className="process-connector" style={{
                   position: "absolute", top: 18, left: "calc(100% - 8px)",
                   width: "calc(1.4rem + 16px)", height: 1,
                   background: t.borderAccent, zIndex: 0,
-                  display: window.innerWidth <= 860 ? "none" : "block",
                 }} />
               )}
               <div style={{

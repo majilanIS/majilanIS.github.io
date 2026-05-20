@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /**
  * ProjectCard — reusable project card
@@ -30,10 +30,15 @@ export default function ProjectCard({
   stats = [],
   githubUrl = "#",
   liveUrl = null,
+  demoVideo = null,
+  image = null,
   featured = false,
   theme = "dark",
 }) {
   const [hovered, setHovered] = useState(false);
+  const videoRef = useRef(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const dark = theme === "dark";
 
   const bg       = dark ? (featured ? "#1A1A1A" : "#171717") : (featured ? "#FFFFFF" : "#FAFAFA");
@@ -69,6 +74,25 @@ export default function ProjectCard({
         gridColumn: featured ? "span 2" : "span 1",
       }}
     >
+      {/* Project image at top */}
+      {image && (
+        <div style={{
+          marginBottom: 14,
+          marginLeft: -22,
+          marginRight: -22,
+          marginTop: -22,
+          borderRadius: '16px 16px 0 0',
+          overflow: 'hidden',
+          height: featured ? 280 : 200,
+        }}>
+          <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        </div>
+      )}
+
+      {/* control preview playback when hovered */}
+      {demoVideo && videoRef && (
+        <HoverPlaybackController videoRef={videoRef} hovered={hovered} />
+      )}
       {/* Top accent line */}
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: 2,
@@ -116,29 +140,52 @@ export default function ProjectCard({
       {/* Tagline */}
       <p style={{
         fontFamily: "'Sora', sans-serif",
-        fontSize: 13, fontWeight: 600, color: textPri,
-        marginBottom: 8, lineHeight: 1.45,
+        fontSize: 13, fontWeight: 700, color: textPri,
+        marginBottom: 6, lineHeight: 1.25,
       }}>{tagline}</p>
 
-      {/* Problem solved */}
-      {problem && (
-        <div style={{
-          background: hovered ? `${accent}10` : dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
-          border: `1px solid ${hovered ? accent + "25" : "transparent"}`,
-          borderRadius: 8, padding: "8px 11px", marginBottom: 12,
-          transition: "background 0.25s, border-color 0.25s",
-        }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: accent, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 3 }}>
-            Problem solved
-          </div>
-          <p style={{ fontSize: 12, color: textSub, lineHeight: 1.55, margin: 0 }}>{problem}</p>
+      {/* Demo video (if provided) — muted preview plays on hover */}
+      {demoVideo && (
+        <div
+          onClick={() => setModalOpen(true)}
+          style={{
+            marginBottom: 12,
+            overflow: 'hidden',
+            borderRadius: 8,
+            cursor: 'pointer',
+            position: 'relative',
+          }}
+        >
+          <video
+            ref={videoRef}
+            src={demoVideo}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            style={{ width: '100%', height: featured ? 260 : 160, objectFit: 'cover', display: 'block' }}
+          />
+          <div style={{ position: 'absolute', left: 12, bottom: 12, background: 'rgba(0,0,0,0.5)', color: '#fff', padding: '6px 10px', borderRadius: 6, fontSize: 13, fontWeight: 700 }}>▶ Demo</div>
         </div>
       )}
 
-      {/* Description */}
-      <p style={{
-        fontSize: 12.5, color: textMut, lineHeight: 1.65, marginBottom: 14, flex: 1,
-      }}>{description}</p>
+      {/* Problem (one-liner) */}
+      {problem && (
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, color: accent, marginBottom: 4, textTransform: 'uppercase' }}>Problem</div>
+          <div style={{ fontSize: 13, color: textSub, fontWeight: 700 }}>{problem}</div>
+        </div>
+      )}
+
+      {/* Short description + details toggle */}
+      <div style={{ fontSize: 12.5, color: textMut, lineHeight: 1.5, marginBottom: 12, flex: 1 }}>
+        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: expanded ? 6 : 2, WebkitBoxOrient: 'vertical' }}>
+          {description}
+        </div>
+        <button onClick={() => setExpanded((s) => !s)} style={{ marginTop: 8, background: 'transparent', border: 'none', color: accent, fontWeight: 700, cursor: 'pointer' }}>
+          {expanded ? 'Show less' : 'Show details'}
+        </button>
+      </div>
 
       {/* Impact stats */}
       {stats.length > 0 && (
@@ -211,6 +258,43 @@ export default function ProjectCard({
             🚧 Coming Soon
           </span>
         )}
+      </div>
+      {modalOpen && demoVideo && <DemoModal src={demoVideo} onClose={() => setModalOpen(false)} />}
+    </div>
+  );
+}
+
+function HoverPlaybackController({ videoRef, hovered }) {
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (hovered) {
+      const p = el.play();
+      if (p && p.catch) p.catch(() => {});
+    } else {
+      try {
+        el.pause();
+        el.currentTime = 0;
+      } catch (e) {}
+    }
+  }, [hovered, videoRef]);
+  return null;
+}
+
+function DemoModal({ src, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
+      <div style={{ width: '90%', maxWidth: 1200, borderRadius: 10, overflow: 'hidden', background: '#000' }} onClick={(e) => e.stopPropagation()}>
+        <video src={src} controls autoPlay style={{ width: '100%', height: 'auto', display: 'block' }} />
+        <div style={{ position: 'absolute', top: 16, right: 16 }}>
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: 20, cursor: 'pointer' }}>✕</button>
+        </div>
       </div>
     </div>
   );
