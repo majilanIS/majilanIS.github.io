@@ -55,7 +55,11 @@ function App() {
 
   return (
     <>
-      <Sidebar theme={theme} setTheme={setTheme} />
+     <div style={{
+       marginLeft:"150px",
+      //  margin: 0 "auto";
+     }}>
+       <Sidebar theme={theme} setTheme={setTheme} />
 
       <HeroContent theme={theme} />
 
@@ -67,6 +71,7 @@ function App() {
       <Services theme={theme} />
 
       <HireMe theme={theme} />
+      </div>
 
       {/* Floating AI Chat Button - Fixed at right-bottom for whole portfolio */}
       {!chatOpen && (

@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ProjectCard from "./ProjectCard";
-import agrivitaDemo from "../assets/video_2026-05-20_09-06-37.mp4";
 import agrivitaImg from "../assets/image-agrivita.jpg";
-import agrispark from "../assets/image-Agrispark.jpg";
+import agrispark from "../assets/image-Agrispark-3.jpg";
 import adwaImg from "../assets/image-adwa.jpg";
 
 const THEMES = {

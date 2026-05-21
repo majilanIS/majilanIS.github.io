@@ -49,6 +49,32 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
     setInput("");
     setIsLoading(true);
 
+    // Send email notification via Supabase Edge Function
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      
+      await fetch(`${supabaseUrl}/functions/v1/send-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${supabaseAnonKey}`,
+        },
+        body: JSON.stringify({
+          type: "chat",
+          senderEmail: "chat-user@portfolio.local",
+          senderName: "Portfolio Visitor",
+          subject: "New Chat Message",
+          message: input.trim(),
+        }),
+      }).catch((err) => {
+        console.warn("Failed to send chat email notification:", err);
+        // Don't interrupt the chat experience
+      });
+    } catch (err) {
+      console.warn("Chat email notification error:", err);
+    }
+
    const systemPrompt = {
           role: "system",
           content: `
