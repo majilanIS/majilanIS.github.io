@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import portrait from "../assets/image.png";
+// import portrail_1 from "../assets/image_1.png";
 
 /* ─── theme tokens ─────────────────────────────────────────── */
 const THEMES = {
@@ -48,7 +49,7 @@ const THEMES = {
 };
 
 /* ─── animated typewriter roles ─────────────────────────────── */
-const ROLES = ["Full-Stack Developer", "Backend Engineer", "AI Engineer", "RAG Pipeline Builder"];
+const ROLES = ["Full-Stack Developer", "AI Engineer", "RAG Pipeline Builder"];
 
 function TypewriterRole({ accent }) {
   const [roleIdx, setRoleIdx] = useState(0);
@@ -161,6 +162,9 @@ export default function HeroContent({ theme }) {
             margin-left: 0 !important;
             max-width: 100% !important;
             padding-inline: clamp(16px, 4vw, 24px) !important;
+            width: 100% !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
           }
 
           .hero-grid {
@@ -171,9 +175,19 @@ export default function HeroContent({ theme }) {
           }
 
           .hero-portrait {
-            justify-self: stretch !important;
+            justify-self: center !important;
             margin-right: 0 !important;
-            max-width: 100% !important;
+            width: auto !important;
+            max-width: clamp(220px, 46vw, 320px) !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            flex: 0 1 auto !important;
+          }
+
+          /* reduce inner portrait top spacing on smaller screens */
+          .hero-portrait > div {
+            margin-top: 24px !important;
+            width: 100% !important;
           }
 
           .hero-stat-grid {
@@ -194,6 +208,14 @@ export default function HeroContent({ theme }) {
 
           .hero-portrait {
             margin-top: 0.5rem;
+            max-width: clamp(180px, 48vw, 260px) !important;
+            width: auto !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+
+          .hero-portrait > div {
+            margin-top: 16px !important;
           }
 
           .hero-grid h1 {
@@ -238,16 +260,19 @@ export default function HeroContent({ theme }) {
           id="home"
           className="hero-shell hero-grid"
         style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1.35fr) minmax(280px, 0.9fr)",
+          display: "flex",
+          justifyContent: "space-around",
+          gap: "clamp(2rem, 4vw, 5rem)",
           alignItems: "center",
-          width: "100%",
-          maxWidth: 1180,
-          margin: "0 auto",
-          paddingInline: "clamp(20px, 4vw, 56px)",
-            paddingTop: "clamp(4rem, 8vw, 6rem)",
+          flexWrap: "nowrap",
+          width: "calc(100% - var(--sidebar-width, 230px))",
+          maxWidth: 1320,
           marginLeft: "var(--sidebar-width, 230px)",
-            scrollMarginTop: 96,
+          marginRight: "auto",
+          paddingInline: "clamp(24px, 4vw, 72px)",
+          boxSizing: "border-box",
+          overflow: "hidden",
+          marginLeft: 250,
         }}
       >
         {/* ── LEFT: Text content ── */}
@@ -261,9 +286,9 @@ export default function HeroContent({ theme }) {
             <h1
               style={{
                 fontFamily: "'Sora', sans-serif",
-                fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
+                fontSize: "clamp(1.3rem, 3vw, 2rem)",
                 fontWeight: 800,
-                lineHeight: 1.06,
+                lineHeight: 1,
                 color: t.text,
                 letterSpacing: "-0.03em",
                 marginBottom: "0.5rem",
@@ -388,8 +413,9 @@ export default function HeroContent({ theme }) {
             flexDirection: "column",
             alignItems: "center",
             gap: 14,
-            justifySelf: "end",
-            marginRight: 6,
+            flex: "0 1 clamp(260px, 30vw, 360px)",
+            maxWidth: "360px",
+            marginRight: "clamp(12px, 3vw, 40px)",
             width: "100%",
           }}
         >
@@ -425,9 +451,13 @@ export default function HeroContent({ theme }) {
               style={{
                 borderRadius: 4,
                 overflow: "hidden",
+                position: "relative",
                 border: `1px solid ${t.frameBorder}`,
                 boxShadow: t.frameGlow,
-                background: t.bgCard,
+                background:
+                  theme === "dark"
+                    ? "radial-gradient(circle at 30% 20%, rgba(130,130,130,0.28), rgba(49,49,49,0.95) 58%, rgba(26,26,26,1) 100%)"
+                    : "radial-gradient(circle at 30% 20%, rgba(236,231,220,0.96), rgba(220,212,198,0.96) 60%, rgba(193,183,168,1) 100%)",
                 aspectRatio: "3/4",
                 width: "100%",
                 marginTop: 45,
@@ -437,6 +467,18 @@ export default function HeroContent({ theme }) {
                 src={portrait}
                 alt="Chekole Ngusalem"
                 style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  background:
+                    theme === "dark"
+                      ? "linear-gradient(165deg, rgba(32,32,32,0.28), rgba(140,140,140,0.22))"
+                      : "linear-gradient(165deg, rgba(215,205,190,0.34), rgba(165,152,134,0.26))",
+                  mixBlendMode: "multiply",
+                }}
               />
             </div>
 

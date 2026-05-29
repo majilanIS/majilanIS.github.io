@@ -55,10 +55,7 @@ function App() {
 
   return (
     <>
-     <div style={{
-       marginLeft:"150px",
-      //  margin: 0 "auto";
-     }}>
+     <div>
        <Sidebar theme={theme} setTheme={setTheme} />
 
       <HeroContent theme={theme} />
