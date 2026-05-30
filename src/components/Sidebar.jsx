@@ -421,7 +421,7 @@ export default function Sidebar({ theme, setTheme }) {
             Appearance
           </div>
 
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 10, marginTop: -3 }}>
             <button
               className={`toggle-btn ${
                 theme === "dark" ? "active" : ""
