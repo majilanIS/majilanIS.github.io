@@ -117,7 +117,7 @@ const PROJECTS = [
     description: "Hand-built React portfolio with animated hero, theme toggle and curated project demos (this site).",
     tags: ["React", "CSS-in-JS", "Vite", "Vercel", "Sora", "Responsive"],
     githubUrl: "https://github.com/majilanIS/majilanIS.github.io",
-    liveUrl: "https://chekole.dev",
+    liveUrl: "https://majilan-is-github-io-tcba.vercel.app/",
   },
 ];
 
