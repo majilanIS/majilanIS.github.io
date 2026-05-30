@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ProjectCard from "./ProjectCard";
 import agrivitaImg from "../assets/image-agrivita.jpg";
-import agrispark from "../assets/image-Agrispark-3.jpg";
+import agrispark from "../assets/image-agrispark-3.jpg";
 import adwaImg from "../assets/image-adwa.jpg";
 import portfolioImg from "../assets/portifolio-image.png";
 
