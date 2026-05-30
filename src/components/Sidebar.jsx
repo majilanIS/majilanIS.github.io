@@ -58,6 +58,7 @@ export default function Sidebar({ theme, setTheme }) {
     { label: "Skills", icon: "◈" },
     { label: "Services", icon: "◇" },
     { label: "Certificates", icon: "▣" },
+    { label: "Feedback", icon: "✦" },
     { label: "Hire Me", icon: "★" },
   ];
 
@@ -269,7 +270,7 @@ export default function Sidebar({ theme, setTheme }) {
           display: "flex",
           flexDirection: "column",
           zIndex: 100,
-          padding: "28px 0",
+          padding: "24px 0",
           transition: "all 0.4s ease",
           fontFamily: "'Sora', sans-serif",
           backdropFilter: "blur(20px)",
@@ -279,11 +280,11 @@ export default function Sidebar({ theme, setTheme }) {
         <div
           className="sidebar-logo"
           style={{
-            padding: "0 24px 28px",
+            padding: "0 24px 24px",
             borderBottom: `1px solid ${t.border}`,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
                 width: 42,
@@ -374,7 +375,7 @@ export default function Sidebar({ theme, setTheme }) {
             padding: "20px 24px",
             display: "flex",
             flexDirection: "column",
-            gap: 4,
+            gap: 2,
           }}
         >
           {navItems.map(({ label, icon }, index) => (

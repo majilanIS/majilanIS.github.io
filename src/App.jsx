@@ -11,6 +11,7 @@ import HireMe from "./components/HireMe";
 import { ChatGroq } from "./components/ChatGroq";
 import Services from "./components/Services";
 import Certificate from "./components/Certificate";
+import Feedback from "./components/Feedback";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -68,6 +69,7 @@ function App() {
       <Skills theme={theme} />
       <Services theme={theme} />
       <Certificate theme={theme} />
+      <Feedback theme={theme} />
 
       <HireMe theme={theme} />
       </div>
