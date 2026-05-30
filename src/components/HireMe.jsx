@@ -142,6 +142,7 @@ export default function HireMe({ theme = "dark" }) {
       full_name: form.name.trim(),
       email: form.email.trim(),
       subject: form.subject.trim(),
+      entity: 'public.applicant',
       message: [
         form.message.trim(),
       ]
@@ -158,44 +159,9 @@ export default function HireMe({ theme = "dark" }) {
       return;
     }
 
-    // Call Supabase Edge Function to send email notification
-    try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      
-      const response = await fetch(`${supabaseUrl}/functions/v1/send-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${supabaseAnonKey}`,
-        },
-        body: JSON.stringify({
-          type: "contact",
-          senderEmail: form.email.trim(),
-          senderName: form.name.trim(),
-          subject: form.subject.trim(),
-          message: form.message.trim(),
-        }),
-      });
-
-      if (!response.ok) {
-        const errorPayload = await response.json().catch(() => ({}));
-        console.warn("Email notification failed:", errorPayload);
-        setStatus("error");
-        setSubmitMessage(
-          errorPayload?.error || "Saved to Supabase, but the email notification failed."
-        );
-        return;
-      }
-    } catch (emailError) {
-      console.warn("Email notification error:", emailError);
-      setStatus("error");
-      setSubmitMessage("Saved to Supabase, but the email notification failed.");
-      return;
-    }
-
     setStatus("sent");
     setForm({ name: "", email: "", subject: "", message: "" });
+    setSubmitMessage("Saved to Supabase and notification created.");
   };
 
   /* ── shared input style ── */

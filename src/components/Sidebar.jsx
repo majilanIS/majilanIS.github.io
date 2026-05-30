@@ -57,6 +57,7 @@ export default function Sidebar({ theme, setTheme }) {
     { label: "Projects", icon: "⬡" },
     { label: "Skills", icon: "◈" },
     { label: "Services", icon: "◇" },
+    { label: "Certificates", icon: "▣" },
     { label: "Hire Me", icon: "★" },
   ];
 
