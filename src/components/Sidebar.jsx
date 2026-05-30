@@ -375,7 +375,6 @@ export default function Sidebar({ theme, setTheme }) {
             padding: "20px 24px",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
           }}
         >
           {navItems.map(({ label, icon }, index) => (

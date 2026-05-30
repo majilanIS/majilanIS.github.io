@@ -272,7 +272,6 @@ export default function HeroContent({ theme }) {
           paddingInline: "clamp(24px, 4vw, 72px)",
           boxSizing: "border-box",
           overflow: "hidden",
-          marginLeft: 250,
         }}
       >
         {/* ── LEFT: Text content ── */}
