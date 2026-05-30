@@ -3,6 +3,7 @@ import ProjectCard from "./ProjectCard";
 import agrivitaImg from "../assets/image-agrivita.jpg";
 import agrispark from "../assets/image-Agrispark-3.jpg";
 import adwaImg from "../assets/image-adwa.jpg";
+import portfolioImg from "../assets/portifolio-image.png";
 
 const THEMES = {
   dark: {
@@ -111,6 +112,7 @@ const PROJECTS = [
     accent: "#FF6B1A",
     featured: false,
     filter: "fullstack",
+    image: portfolioImg,
     problem: "Templates feel generic and don't showcase individual design or technical signal.",
     description: "Hand-built React portfolio with animated hero, theme toggle and curated project demos (this site).",
     tags: ["React", "CSS-in-JS", "Vite", "Vercel", "Sora", "Responsive"],
