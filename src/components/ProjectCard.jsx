@@ -53,6 +53,7 @@ export default function ProjectCard({
 
   return (
     <div
+      className="project-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -74,9 +75,47 @@ export default function ProjectCard({
         gridColumn: featured ? "span 2" : "span 1",
       }}
     >
+      <style>{`
+        .project-card {
+          min-width: 0;
+        }
+
+        .project-card .project-card-image {
+          will-change: transform;
+        }
+
+        @media (max-width: 640px) {
+          .project-card {
+            padding: 18px 16px 16px !important;
+            border-radius: 14px !important;
+          }
+
+          .project-card .project-card-image {
+            margin-left: -16px !important;
+            margin-right: -16px !important;
+            margin-top: -18px !important;
+            height: 180px !important;
+          }
+
+          .project-card h3 {
+            font-size: 16px !important;
+          }
+
+          .project-card .project-actions a,
+          .project-card .project-actions button {
+            width: 100%;
+            justify-content: center;
+          }
+
+          .project-card .project-actions {
+            flex-direction: column;
+          }
+        }
+      `}</style>
+
       {/* Project image at top */}
       {image && (
-        <div style={{
+        <div className="project-card-image" style={{
           marginBottom: 14,
           marginLeft: -22,
           marginRight: -22,
@@ -219,7 +258,7 @@ export default function ProjectCard({
       </div>
 
       {/* Action buttons */}
-      <div style={{ display: "flex", gap: 8 }}>
+      <div className="project-actions" style={{ display: "flex", gap: 8 }}>
         <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{
           display: "inline-flex", alignItems: "center", gap: 5,
           background: btnBg, border: `1px solid ${btnBdr}`,

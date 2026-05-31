@@ -50,6 +50,11 @@ const THEMES = {
 export default function Sidebar({ theme, setTheme }) {
   const t = THEMES[theme] || THEMES.dark;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isDarkTheme = theme === "dark";
+
+  const toggleTheme = () => {
+    setTheme(isDarkTheme ? "light" : "dark");
+  };
 
   const navItems = [
     { label: "Home", icon: "⌂" },
@@ -131,6 +136,26 @@ export default function Sidebar({ theme, setTheme }) {
           background: ${t.accentDim};
           border-color: ${t.accent};
           color: ${t.accent};
+        }
+
+        .theme-toggle-copy {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+        }
+
+        .theme-toggle-label {
+          font-size: 12px;
+          font-weight: 700;
+          color: ${t.text};
+          line-height: 1.1;
+        }
+
+        .theme-toggle-hint {
+          font-size: 11px;
+          color: ${t.textMuted};
+          line-height: 1.1;
         }
 
         @media (max-width: 900px) {
@@ -347,23 +372,14 @@ export default function Sidebar({ theme, setTheme }) {
               ☰
             </button>
 
-            <div style={{ display: "flex", gap: 8 }}>
-              <button
-                className={`toggle-btn ${theme === "dark" ? "active" : ""}`}
-                onClick={() => setTheme("dark")}
-                title="Dark Mode"
-              >
-                🌙
-              </button>
-
-              <button
-                className={`toggle-btn ${theme === "light" ? "active" : ""}`}
-                onClick={() => setTheme("light")}
-                title="Light Mode"
-              >
-                ☀️
-              </button>
-            </div>
+            <button
+              className="toggle-btn"
+              onClick={toggleTheme}
+              title={isDarkTheme ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={isDarkTheme ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDarkTheme ? "🌙" : "☀️"}
+            </button>
           </div>
         </div>
 
@@ -421,26 +437,20 @@ export default function Sidebar({ theme, setTheme }) {
             Appearance
           </div>
 
-          <div style={{ display: "flex", gap: 10, marginTop: -5 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: -5 }}>
             <button
-              className={`toggle-btn ${
-                theme === "dark" ? "active" : ""
-              }`}
-              onClick={() => setTheme("dark")}
-              title="Dark Mode"
+              className="toggle-btn"
+              onClick={toggleTheme}
+              title={isDarkTheme ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={isDarkTheme ? "Switch to light mode" : "Switch to dark mode"}
             >
-              🌙
+              {isDarkTheme ? "🌙" : "☀️"}
             </button>
 
-            <button
-              className={`toggle-btn ${
-                theme === "light" ? "active" : ""
-              }`}
-              onClick={() => setTheme("light")}
-              title="Light Mode"
-            >
-              ☀️
-            </button>
+            <div className="theme-toggle-copy">
+              <span className="theme-toggle-label">{isDarkTheme ? "Dark mode" : "Light mode"}</span>
+              <span className="theme-toggle-hint">Tap to switch theme</span>
+            </div>
           </div>
         </div>
       </aside>
