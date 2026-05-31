@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ProjectCard from "./ProjectCard";
-import agrivitaImg from "../assets/image-agrivita.jpg";
-import agrispark from "../assets/image-agrispark-3.jpg";
+import agrivitaImg from "../assets/agrivita_image.png";
+import agrispark from "../assets/agrispark_image.png";
 import adwaImg from "../assets/image-adwa.jpg";
 import portfolioImg from "../assets/portifolio-image.png";
 
@@ -53,8 +53,8 @@ const PROJECTS = [
     problem: "Farmers lose 20–40% yield to undetected crop disease and pests.",
     description: "Mobile AI: scan a plant, get diagnosis, treatment suggestions and profit-optimised options. Bilingual chat support.",
     tags: ["Python", "TensorFlow", "React Native", "Node.js", "MongoDB", "RAG", "OpenCV"],
-    githubUrl: "#",
-    liveUrl:"https://agrivita-frontend.onrender.com/",
+    githubUrl: "https://github.com/majilanIS/AgriVita",
+    liveUrl:"https://agrivita-frontend-us8i.vercel.app/",
   },
   {
     id: "agrispark",
