@@ -129,6 +129,7 @@ export default function Feedback({ theme = "dark" }) {
         padding: "72px 0 80px",
         marginLeft: "var(--sidebar-width, 230px)",
         fontFamily: "'Sora', sans-serif",
+        width: "100%",
       }}
     >
       <style>{`
@@ -186,9 +187,25 @@ export default function Feedback({ theme = "dark" }) {
           opacity: 0.65;
           cursor: not-allowed;
         }
+
+        @media (max-width: 860px) {
+          #feedback {
+            margin-left: 0 !important;
+            width: 100% !important;
+            padding: 44px 0 56px !important;
+          }
+
+          #feedback .feedback-shell {
+            padding: 0 20px !important;
+          }
+
+          #feedback .feedback-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
       `}</style>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="feedback-shell" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ marginBottom: "2.2rem" }}>
           <div style={{
             display: "inline-flex",
@@ -222,7 +239,7 @@ export default function Feedback({ theme = "dark" }) {
           </p>
         </div>
 
-        <div style={{
+        <div className="feedback-grid" style={{
           display: "grid",
           gridTemplateColumns: "1.1fr 0.9fr",
           gap: "1.5rem",

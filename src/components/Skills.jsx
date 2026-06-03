@@ -167,6 +167,7 @@ export default function Skills({ theme = "dark" }) {
         overflow: "hidden",
         transition: "background 0.4s",
         marginLeft: "var(--sidebar-width, 230px)",
+        width: "100%",
       }}
     >
       {/* Font import */}
@@ -185,6 +186,8 @@ export default function Skills({ theme = "dark" }) {
 
         .group-heading {
           display: flex; align-items: center; gap: 10px;
+          flex-wrap: wrap;
+          min-width: 0;
           margin: 0 0 16px;
         }
 
@@ -208,7 +211,14 @@ export default function Skills({ theme = "dark" }) {
         }
 
         @media (max-width: 980px) {
+          #skills {
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
+
           .skills-shell {
+            width: 100% !important;
+            max-width: 100% !important;
             padding: 0 clamp(20px, 4vw, 28px) !important;
           }
         }

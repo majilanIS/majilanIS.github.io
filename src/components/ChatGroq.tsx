@@ -1,7 +1,79 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-export function ChatGroq({ onClose }: { onClose: () => void }) {
+const THEMES = {
+  dark: {
+    shellBackground: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)",
+    shellBorder: "1px solid rgba(96, 165, 250, 0.2)",
+    shellShadow: "0 8px 32px rgba(59, 130, 246, 0.3), 0 0 60px rgba(96, 165, 250, 0.15)",
+    headerBorder: "1px solid rgba(96, 165, 250, 0.1)",
+    headerBackground: "rgba(15, 23, 42, 0.8)",
+    headerTitle: "#e0e7ff",
+    headerSubtitle: "#a5b4fc",
+    panelBackground: "rgba(15, 23, 42, 0.4)",
+    footerBackground: "rgba(15, 23, 42, 0.9)",
+    inputBackground: "rgba(255, 255, 255, 0.06)",
+    inputBackgroundFocus: "rgba(255, 255, 255, 0.1)",
+    inputText: "#e0e7ff",
+    inputBorder: "1px solid rgba(96, 165, 250, 0.2)",
+    inputBorderFocus: "rgba(96, 165, 250, 0.5)",
+    inputShadow: "0 0 12px rgba(96, 165, 250, 0.1)",
+    primaryGradient: "linear-gradient(135deg, #60a5fa, #3b82f6)",
+    primaryMuted: "rgba(96, 165, 250, 0.2)",
+    avatarShadow: "0 0 24px rgba(96, 165, 250, 0.4)",
+    bubbleUser: "linear-gradient(135deg, #3b82f6, #1e40af)",
+    bubbleAssistant: "rgba(255, 255, 255, 0.08)",
+    bubbleText: "#e0e7ff",
+    bubbleBorderUser: "1px solid rgba(96, 165, 250, 0.4)",
+    bubbleBorderAssistant: "1px solid rgba(96, 165, 250, 0.15)",
+    bubbleShadowUser: "0 2px 8px rgba(59, 130, 246, 0.2)",
+    bubbleShadowAssistant: "0 1px 4px rgba(0, 0, 0, 0.1)",
+    closeBackground: "rgba(255,75,62,0.06)",
+    closeBorder: "1px solid rgba(255,75,62,0.18)",
+    closeColor: "#FF4B3E",
+    closeHoverBackground: "rgba(255,75,62,0.12)",
+    submitBackground: "linear-gradient(135deg, #60a5fa, #3b82f6)",
+    submitDisabledBackground: "rgba(96, 165, 250, 0.2)",
+    textMuted: "#94a3b8",
+  },
+  light: {
+    shellBackground: "linear-gradient(135deg, #fff8f2 0%, #fff1e8 48%, #ffe6d6 100%)",
+    shellBorder: "1px solid rgba(232, 93, 4, 0.18)",
+    shellShadow: "0 8px 32px rgba(232, 93, 4, 0.12), 0 0 60px rgba(232, 93, 4, 0.08)",
+    headerBorder: "1px solid rgba(232, 93, 4, 0.12)",
+    headerBackground: "rgba(255, 252, 248, 0.86)",
+    headerTitle: "#1a1a1a",
+    headerSubtitle: "#e85d04",
+    panelBackground: "rgba(255, 251, 247, 0.72)",
+    footerBackground: "rgba(255, 251, 247, 0.92)",
+    inputBackground: "rgba(255, 255, 255, 0.92)",
+    inputBackgroundFocus: "rgba(255, 255, 255, 1)",
+    inputText: "#1a1a1a",
+    inputBorder: "1px solid rgba(232, 93, 4, 0.16)",
+    inputBorderFocus: "rgba(232, 93, 4, 0.45)",
+    inputShadow: "0 0 12px rgba(232, 93, 4, 0.08)",
+    primaryGradient: "linear-gradient(135deg, #ff8c42, #e85d04)",
+    primaryMuted: "rgba(232, 93, 4, 0.16)",
+    avatarShadow: "0 0 24px rgba(232, 93, 4, 0.22)",
+    bubbleUser: "linear-gradient(135deg, #ff8c42, #e85d04)",
+    bubbleAssistant: "rgba(255, 255, 255, 0.95)",
+    bubbleText: "#1a1a1a",
+    bubbleBorderUser: "1px solid rgba(232, 93, 4, 0.26)",
+    bubbleBorderAssistant: "1px solid rgba(232, 93, 4, 0.12)",
+    bubbleShadowUser: "0 2px 8px rgba(232, 93, 4, 0.14)",
+    bubbleShadowAssistant: "0 1px 4px rgba(0, 0, 0, 0.06)",
+    closeBackground: "rgba(232, 93, 4, 0.08)",
+    closeBorder: "1px solid rgba(232, 93, 4, 0.18)",
+    closeColor: "#e85d04",
+    closeHoverBackground: "rgba(232, 93, 4, 0.16)",
+    submitBackground: "linear-gradient(135deg, #ff8c42, #e85d04)",
+    submitDisabledBackground: "rgba(232, 93, 4, 0.16)",
+    textMuted: "#64748b",
+  },
+};
+
+export function ChatGroq({ theme = "dark", onClose }: { theme?: "dark" | "light"; onClose: () => void }) {
+  const t = THEMES[theme] || THEMES.dark;
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -510,10 +582,10 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
         flexDirection: "column",
         overflow: "hidden",
         borderRadius: "20px",
-        background: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)",
-        border: "1px solid rgba(96, 165, 250, 0.2)",
+        background: t.shellBackground,
+        border: t.shellBorder,
         backdropFilter: "blur(16px)",
-        boxShadow: "0 8px 32px rgba(59, 130, 246, 0.3), 0 0 60px rgba(96, 165, 250, 0.15)",
+        boxShadow: t.shellShadow,
       }}
     >
       <style>{`
@@ -549,9 +621,9 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
           width: 36,
           height: 36,
           borderRadius: 10,
-          background: "rgba(255,75,62,0.06)",
-          border: "1px solid rgba(255,75,62,0.18)",
-          color: "#FF4B3E",
+          background: t.closeBackground,
+          border: t.closeBorder,
+          color: t.closeColor,
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
@@ -560,10 +632,10 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
           transition: "background 0.18s, transform 0.12s",
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,75,62,0.12)";
+          (e.currentTarget as HTMLButtonElement).style.background = t.closeHoverBackground;
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,75,62,0.06)";
+          (e.currentTarget as HTMLButtonElement).style.background = t.closeBackground;
         }}
         aria-label="Close chat"
       >
@@ -572,8 +644,8 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
       {/* Compact Header */}
       <div
         style={{
-          borderBottom: "1px solid rgba(96, 165, 250, 0.1)",
-          background: "rgba(15, 23, 42, 0.8)",
+          borderBottom: t.headerBorder,
+          background: t.headerBackground,
           padding: "16px 20px",
           flexShrink: 0,
         }}
@@ -587,21 +659,21 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
                 width: 36,
                 height: 36,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #60a5fa, #3b82f6)",
+                background: t.primaryGradient,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 18,
-                boxShadow: "0 0 24px rgba(96, 165, 250, 0.4)",
+                boxShadow: t.avatarShadow,
               }}
             >
               ✨
             </motion.div>
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: "#e0e7ff", margin: "0 0 2px 0" }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: t.headerTitle, margin: "0 0 2px 0" }}>
                 Chekole's AI
               </h3>
-              <p style={{ fontSize: 11, color: "#a5b4fc", margin: 0 }}>Ask me anything</p>
+              <p style={{ fontSize: 11, color: t.headerSubtitle, margin: 0 }}>Ask me anything</p>
             </div>
           </div>
           {/* close button moved to top-right corner */}
@@ -618,7 +690,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
           display: "flex",
           flexDirection: "column",
           gap: "12px",
-          background: "rgba(15, 23, 42, 0.4)",
+          background: t.panelBackground,
         }}
         className="custom-scrollbar"
       >
@@ -642,7 +714,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
                     width: 28,
                     height: 28,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #60a5fa, #3b82f6)",
+                    background: t.primaryGradient,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -664,17 +736,17 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
                   fontSize: "13px",
                   background:
                     msg.role === "user"
-                      ? "linear-gradient(135deg, #3b82f6, #1e40af)"
-                      : "rgba(255, 255, 255, 0.08)",
-                  color: msg.role === "user" ? "#e0e7ff" : "#e0e7ff",
+                      ? t.bubbleUser
+                      : t.bubbleAssistant,
+                  color: t.bubbleText,
                   border:
                     msg.role === "user"
-                      ? "1px solid rgba(96, 165, 250, 0.4)"
-                      : "1px solid rgba(96, 165, 250, 0.15)",
+                      ? t.bubbleBorderUser
+                      : t.bubbleBorderAssistant,
                   boxShadow:
                     msg.role === "user"
-                      ? "0 2px 8px rgba(59, 130, 246, 0.2)"
-                      : "0 1px 4px rgba(0, 0, 0, 0.1)",
+                      ? t.bubbleShadowUser
+                      : t.bubbleShadowAssistant,
                 }}
               >
                 {msg.content}
@@ -685,7 +757,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
                     width: 28,
                     height: 28,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #60a5fa, #3b82f6)",
+                    background: t.primaryGradient,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -716,7 +788,7 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
                 width: 28,
                 height: 28,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #60a5fa, #3b82f6)",
+                background: t.primaryGradient,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -732,9 +804,9 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
                 maxWidth: "70%",
                 padding: "10px 14px",
                 borderRadius: "14px",
-                background: "rgba(255, 255, 255, 0.08)",
-                color: "#e0e7ff",
-                border: "1px solid rgba(96, 165, 250, 0.15)",
+                background: t.bubbleAssistant,
+                color: t.bubbleText,
+                border: t.bubbleBorderAssistant,
                 fontSize: "13px",
                 lineHeight: "1.4",
               }}
@@ -756,8 +828,8 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
       {/* Compact Input Area */}
       <div
         style={{
-          borderTop: "1px solid rgba(96, 165, 250, 0.1)",
-          background: "rgba(15, 23, 42, 0.9)",
+          borderTop: t.headerBorder,
+          background: t.footerBackground,
           padding: "12px 16px",
           flexShrink: 0,
         }}
@@ -770,22 +842,22 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
             placeholder="Ask..."
             style={{
               flex: 1,
-              background: "rgba(255, 255, 255, 0.06)",
-              color: "#e0e7ff",
+              background: t.inputBackground,
+              color: t.inputText,
               padding: "10px 12px",
               borderRadius: "10px",
-              border: "1px solid rgba(96, 165, 250, 0.2)",
+              border: t.inputBorder,
               outline: "none",
               fontSize: "13px",
               transition: "all 0.3s",
             }}
             onFocus={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.1)";
-              e.target.style.borderColor = "rgba(96, 165, 250, 0.5)";
-              e.target.style.boxShadow = "0 0 12px rgba(96, 165, 250, 0.1)";
+              e.target.style.background = t.inputBackgroundFocus;
+              e.target.style.borderColor = t.inputBorderFocus;
+              e.target.style.boxShadow = t.inputShadow;
             }}
             onBlur={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.06)";
+              e.target.style.background = t.inputBackground;
               e.target.style.borderColor = "rgba(96, 165, 250, 0.2)";
               e.target.style.boxShadow = "none";
             }}
@@ -799,8 +871,8 @@ export function ChatGroq({ onClose }: { onClose: () => void }) {
             style={{
               background:
                 isLoading || !input.trim()
-                  ? "rgba(96, 165, 250, 0.2)"
-                  : "linear-gradient(135deg, #60a5fa, #3b82f6)",
+                  ? t.submitDisabledBackground
+                  : t.submitBackground,
               color: "#fff",
               border: "none",
               padding: "10px 14px",

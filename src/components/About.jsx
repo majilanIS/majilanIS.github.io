@@ -79,6 +79,8 @@ export default function AboutPage({ theme = "dark" }) {
       style={{
         background: `radial-gradient(circle at top, ${t.bg}, ${t.bgNav})`,
         color: t.text,
+        overflowX: "clip",
+        width: "100%",
         // expose CSS vars for AboutPage.css to consume
         ["--accent"]: t.accent,
         ["--text"]: t.text,
@@ -90,11 +92,23 @@ export default function AboutPage({ theme = "dark" }) {
 
       {/* TOP: About Me (full width) */}
       <div className="about-top">
-        <AboutMe />
+        <AboutMe theme={theme} />
       </div>
 
       {/* BOTTOM: two columns side-by-side */}
-      <div className="about-grid">
+      <div
+        className="about-grid"
+        style={{
+          background: t.bgCard,
+          border: `1px solid ${t.border}`,
+          borderRadius: "24px",
+          padding: "28px",
+          boxShadow:
+            theme === "light"
+              ? "0 20px 50px rgba(0,0,0,0.08)"
+              : "0 20px 50px rgba(0,0,0,0.24)",
+        }}
+      >
         <section className="about-section">
           <h2>Experience</h2>
           <Timeline data={experience} />

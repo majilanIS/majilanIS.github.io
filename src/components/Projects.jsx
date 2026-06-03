@@ -167,6 +167,7 @@ export default function Projects({ theme = "dark" }) {
         overflow: "hidden",
         transition: "background 0.4s",
         marginLeft: "var(--sidebar-width, 230px)",
+        width: "100%",
       }}
     >
       <style>{`
@@ -200,7 +201,14 @@ export default function Projects({ theme = "dark" }) {
         }
 
         @media (max-width: 980px) {
+          #projects {
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
+
           .projects-shell {
+            width: 100% !important;
+            max-width: 100% !important;
             padding: 0 clamp(20px, 4vw, 28px) !important;
           }
 

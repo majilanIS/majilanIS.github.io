@@ -103,7 +103,10 @@ export default function HeroContent({ theme }) {
   });
 
   return (
-    <>
+    <section
+      className="hero-section"
+      style={{ position: "relative", overflow: "hidden", width: "100%" }}
+    >
       <style>{`
           position: "relative",
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap');
@@ -537,6 +540,6 @@ export default function HeroContent({ theme }) {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }

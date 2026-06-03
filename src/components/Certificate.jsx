@@ -69,8 +69,29 @@ export default function Certificate({ theme = "dark" }) {
 				color: colors.text,
 				padding: "60px clamp(20px, 4vw, 56px)",
 				marginLeft: "var(--sidebar-width, 230px)",
+				width: "100%",
 			}}
 		>
+			<style>{`
+				@media (max-width: 860px) {
+					#certificates {
+						margin-left: 0 !important;
+						width: 100% !important;
+						padding: 44px 20px !important;
+					}
+
+					#certificates .certificate-grid {
+						grid-template-columns: 1fr !important;
+					}
+				}
+
+				@media (max-width: 560px) {
+					#certificates .certificate-preview {
+						height: 220px !important;
+					}
+				}
+			`}</style>
+
 			<div style={{ maxWidth: 1100, margin: "0 auto" }}>
 				<div style={{ marginBottom: 24 }}>
 					<p
@@ -128,6 +149,7 @@ export default function Certificate({ theme = "dark" }) {
 					}}
 				>
 					<div
+						className="certificate-grid"
 						style={{
 							display: "grid",
 							gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
@@ -146,6 +168,7 @@ export default function Certificate({ theme = "dark" }) {
 								}}
 							>
 								<div
+									className="certificate-preview"
 									style={{
 										width: "100%",
 										height: 280,

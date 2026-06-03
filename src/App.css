@@ -1,5 +1,5 @@
  :root {
-	--sidebar-width: 197px;
+	--sidebar-width: 230px;
 	--page-gutter: clamp(20px, 4vw, 56px);
 }
 
@@ -11,6 +11,13 @@
 }
 
 body {
+	overflow-x: hidden;
+}
+
+html,
+body,
+#root {
+	width: 100%;
 	overflow-x: hidden;
 }
 

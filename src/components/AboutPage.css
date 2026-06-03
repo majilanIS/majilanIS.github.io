@@ -5,7 +5,9 @@
   background: radial-gradient(circle at top, var(--bg, #111827), var(--bgNav, #0b0f19));
   min-height: 100vh;
   font-family: "Inter", "Arial", sans-serif;
-  margin-left: var(--sidebar-width, 300px);
+  margin-left: var(--sidebar-width, 230px);
+  width: calc(100% - var(--sidebar-width, 230px));
+  overflow-x: clip;
 }
 .about-container {
   color: var(--text, #ffffff);
@@ -77,7 +79,7 @@
 .timeline-item::before {
   content: "";
   position: absolute;
-  left: -28px;
+  left: -24px;
   top: 18px;
   width: 10px;
   height: 10px;
@@ -130,6 +132,7 @@
   .about-container {
     padding: 32px 18px;
     margin-left: 0;
+    width: 100%;
   }
 
   .about-grid {

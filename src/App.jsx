@@ -13,8 +13,27 @@ import Services from "./components/Services";
 import Certificate from "./components/Certificate";
 import Feedback from "./components/Feedback";
 
+const THEME_STORAGE_KEY = "portfolio-theme";
+
+function getInitialTheme() {
+  if (typeof window === "undefined") {
+    return "dark";
+  }
+
+  try {
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === "dark" || savedTheme === "light") {
+      return savedTheme;
+    }
+  } catch (error) {
+    // Ignore storage access errors and fall back to the default theme.
+  }
+
+  return "dark";
+}
+
 function App() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(getInitialTheme);
   const [chatOpen, setChatOpen] = useState(false);
 
   // central theme tokens (minimal set used across components/CSS)
@@ -51,8 +70,16 @@ function App() {
   useEffect(() => {
     const vars = THEMES[theme] || THEMES.dark;
     const root = document.documentElement;
+
+    root.style.colorScheme = theme;
     Object.entries(vars).forEach(([k, v]) => root.style.setProperty(`--${k}`, v));
     root.setAttribute("data-theme", theme);
+
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (error) {
+      // Ignore storage write failures.
+    }
   }, [theme]);
 
   return (
@@ -112,7 +139,7 @@ function App() {
       {/* AI Chat Modal - Fixed positioning for whole portfolio */}
       {chatOpen && (
         <div className="chat-fab-shell">
-          <ChatGroq onClose={() => setChatOpen(false)} />
+          <ChatGroq theme={theme} onClose={() => setChatOpen(false)} />
         </div>
       )}
     </>
