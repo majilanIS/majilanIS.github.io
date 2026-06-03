@@ -255,6 +255,10 @@ export default function Sidebar({ theme, setTheme }) {
             margin-left: auto;
           }
 
+          .mobile-actions .toggle-btn:not(.mobile-menu-btn) {
+            display: none;
+          }
+
           .mobile-menu-btn {
             display: flex !important;
           }
