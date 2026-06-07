@@ -87,18 +87,16 @@ function App() {
      <div>
        <Sidebar theme={theme} setTheme={setTheme} />
 
-      <HeroContent theme={theme} />
-
-      <AboutPage theme={theme} />
-
-      <Projects theme={theme} />
-
-      <Skills theme={theme} />
-      <Services theme={theme} />
-      <Certificate theme={theme} />
-      <Feedback theme={theme} />
-
-      <HireMe theme={theme} />
+        <div className="main-content">
+          <HeroContent theme={theme} />
+          <AboutPage theme={theme} />
+          <Projects theme={theme} />
+          <Skills theme={theme} />
+          <Services theme={theme} />
+          <Certificate theme={theme} />
+          <Feedback theme={theme} />
+          <HireMe theme={theme} />
+        </div>
       </div>
 
       {/* Floating AI Chat Button - Fixed at right-bottom for whole portfolio */}

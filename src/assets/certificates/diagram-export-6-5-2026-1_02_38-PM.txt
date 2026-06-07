@@ -1,0 +1,26 @@
+AGRISPARK SYSTEM ARCHITECTURE
+
+BY Farmer S O Admin
+
+REST Realtime API
+
+4 Service Layer (Supabase Backend Services)
+
+mm
+
+mm | [man | ow | [wim |
+
+© Data Layer
+
+Products | Orders | Messages | Payments |
+
+PostgreSQL Database
+
+ja
+
+Legend
+— Sold Arrow = Data Flow
+
+[5] cinder «persistent storage
+
+Ma eraser
