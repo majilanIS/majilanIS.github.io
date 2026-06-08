@@ -23,7 +23,6 @@ body,
 .main-content {
   /* margin-left: 230px; */
   min-height: 100vh;
-  width: calc(100% - 230px);
 }
 .chat-fab,
 .chat-fab-shell {
