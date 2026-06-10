@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="cGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="nGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff2d55"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="48" fill="#050505"/>
+
+  <path d="M110 52
+           C60 52, 30 88, 30 128
+           C30 168, 60 204, 110 204
+           L138 204
+           L120 184
+           L110 184
+           C74 184, 50 160, 50 128
+           C50 96, 74 72, 110 72
+           L170 72
+           L188 52 Z"
+        fill="url(#cGrad)"/>
+
+  <path d="M128 92
+           L160 92
+           L212 154
+           L212 52
+           L232 52
+           L232 204
+           L202 204
+           L148 140
+           L148 204
+           L128 204 Z"
+        fill="url(#nGrad)"/>
+</svg>
