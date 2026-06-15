@@ -212,7 +212,7 @@ export default function Skills({ theme = "dark" }) {
 
         @media (max-width: 980px) {
           #skills {
-            margin-left: 0 !important;
+            margin-left: 200px;
             width: 100% !important;
           }
 

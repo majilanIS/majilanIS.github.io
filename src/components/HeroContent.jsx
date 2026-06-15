@@ -125,6 +125,7 @@ export default function HeroContent({ theme }) {
           70% { box-shadow: 0 0 0 10px transparent; }
           100% { box-shadow: 0 0 0 0 transparent; }
         }
+          
         .btn-primary {
           display: inline-flex; align-items: center; gap: 8px;
           background: ${t.accent}; color: #fff;
@@ -162,7 +163,7 @@ export default function HeroContent({ theme }) {
 
         @media (max-width: 980px) {
           .hero-shell {
-            margin-left: 0 !important;
+            margin-left: 250px;
             max-width: 100% !important;
             padding-inline: clamp(16px, 4vw, 24px) !important;
             width: 100% !important;

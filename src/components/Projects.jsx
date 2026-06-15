@@ -202,7 +202,7 @@ export default function Projects({ theme = "dark" }) {
 
         @media (max-width: 980px) {
           #projects {
-            margin-left: 0 !important;
+            margin-left: 250px;
             width: 100% !important;
           }
 
