@@ -5,7 +5,7 @@ An expressive React + Vite portfolio for Chekole Ngusalem. The site combines a p
 ## Highlights
 
 - Fast Vite build with a responsive, single-page layout.
-- AI chat widget powered by Groq.
+- AI chat widget powered by Gemini.
 - Certificate gallery with downloadable assets.
 - Contact form that writes to Supabase.
 - Database-triggered notifications stored in `public.notification`.
@@ -18,7 +18,7 @@ An expressive React + Vite portfolio for Chekole Ngusalem. The site combines a p
 | Frontend | React, Vite, Framer Motion |
 | UI | Custom CSS, responsive layout, SVG icons |
 | Backend | Supabase Postgres, database triggers, Edge Functions |
-| AI | Groq API |
+| AI | Gemini API |
 
 ## Project Structure
 
@@ -52,7 +52,7 @@ Create a `.env` file at the project root:
 
 ```dotenv
 VITE_GEMINI_API_KEY=your_gemini_key_here
-VITE_GEMINI_MODEL=gemini-3.6-flash
+VITE_GEMINI_MODEL=gemini-2.0-flash
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 VITE_RESENT_API_KEY=THIS IS LATER PUT TO THE BACKEND ON THE PRODUCTION BUILD
@@ -81,6 +81,7 @@ RESEND_FROM
 Set these environment variables in Vercel:
 
 - `VITE_GEMINI_API_KEY`
+- `VITE_GEMINI_MODEL`
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 
