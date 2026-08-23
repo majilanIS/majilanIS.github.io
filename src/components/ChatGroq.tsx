@@ -488,17 +488,20 @@ export function ChatGroq({ theme = "dark", onClose }: { theme?: "dark" | "light"
     extraSystemMessages.push({ role: "system", content: `LinkedIn: ${LINKEDIN_URL}` });
 
     try {
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
-        }),
-      });
+      const res = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_GEMINI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: import.meta.env.VITE_GEMINI_MODEL || "gemini-3.6-flash",
+            messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
+          }),
+        }
+      );
 
       let data: any = null;
       try {
@@ -517,13 +520,13 @@ export function ChatGroq({ theme = "dark", onClose }: { theme?: "dark" | "light"
       }
 
       if (!res.ok) {
-        console.error("Groq API error:", res.status, data);
+        console.error("Gemini API error:", res.status, data);
         const serverMsg = data?.error?.message || data?.message || JSON.stringify(data);
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: `⚠️ Groq error ${res.status}: ${serverMsg}`,
+            content: `⚠️ Gemini error ${res.status}: ${serverMsg}`,
           },
         ]);
         return;
@@ -538,7 +541,7 @@ export function ChatGroq({ theme = "dark", onClose }: { theme?: "dark" | "light"
         null;
 
       if (!reply) {
-        console.error("Unexpected Groq response shape:", data);
+        console.error("Unexpected Gemini response shape:", data);
         setMessages((prev) => [
           ...prev,
           {
@@ -551,7 +554,7 @@ export function ChatGroq({ theme = "dark", onClose }: { theme?: "dark" | "light"
         setIsTyping(true);
       }
     } catch (err) {
-      console.error("Error chatting with Groq:", err);
+      console.error("Error chatting with Gemini:", err);
       setMessages((prev) => [
         ...prev,
         {
