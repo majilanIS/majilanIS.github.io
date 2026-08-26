@@ -1,108 +1,71 @@
 # Chekole Portfolio
 
-An expressive React + Vite portfolio for Chekole Ngusalem. The site combines a polished landing page, certificate showcase, an AI chat widget, and a Supabase-powered contact + notification pipeline.
+React + Vite portfolio with an AI chat widget, certificate showcase, and Supabase-powered contact + notification system.
 
-## Highlights
-
-- Fast Vite build with a responsive, single-page layout.
-- AI chat widget powered by Gemini.
-- Certificate gallery with downloadable assets.
-- Contact form that writes to Supabase.
-- Database-triggered notifications stored in `public.notification`.
-- Email delivery handled server-side through a Supabase Edge Function.
-
-## Tech Stack
-
-| Layer | Tools |
-| --- | --- |
-| Frontend | React, Vite, Framer Motion |
-| UI | Custom CSS, responsive layout, SVG icons |
-| Backend | Supabase Postgres, database triggers, Edge Functions |
-| AI | Gemini API |
-
-## Project Structure
-
-```text
-src/
-	components/
-	assets/
-	lib/
-supabase/
-	functions/
-	patches/
-```
-
-## Local Development
+## Setup
 
 ```bash
 npm install
+```
+
+Create `.env` at the project root:
+
+```dotenv
+VITE_GEMINI_API_KEY=your_key
+VITE_GEMINI_MODEL=gemini-2.0-flash
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_key
+```
+
+```bash
 npm run dev
 ```
 
-Production build:
+## Build
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Environment Variables
+## Tech Stack
 
-Create a `.env` file at the project root:
+- **Frontend:** React, Vite, Framer Motion
+- **UI:** Custom CSS, responsive layout, SVG icons
+- **Backend:** Supabase Postgres, Edge Functions, database triggers
+- **AI:** Gemini API
 
-```dotenv
-VITE_GEMINI_API_KEY=your_gemini_key_here
-VITE_GEMINI_MODEL=gemini-2.0-flash
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_RESENT_API_KEY=THIS IS LATER PUT TO THE BACKEND ON THE PRODUCTION BUILD
+## Project Structure
+
+```
+src/
+  components/
+  assets/
+  lib/
+supabase/
+  functions/
+  patches/
 ```
 
 ## Supabase Notification Flow
 
-1. The contact form inserts a row into `public.applicant`.
-2. A database trigger creates a matching row in `public.notification`.
-3. A Supabase database webhook watches `public.notification`.
-4. The webhook calls the `send-notification-email` Edge Function.
-5. The Edge Function sends the email to `chekolengusalem@gmail.com`.
+1. Contact form inserts into `public.applicant`
+2. Database trigger creates a row in `public.notification`
+3. Webhook calls the `send-notification-email` Edge Function
+4. Edge Function sends email via Resend
 
 Required Supabase secrets:
-
-```bash
-RESEND_API_KEY
-NOTIFY_TO
-RESEND_FROM
-```
-
-## Deployment
-
-### Vercel
-
-Set these environment variables in Vercel:
-
-- `VITE_GEMINI_API_KEY`
-- `VITE_GEMINI_MODEL`
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-
-Then deploy the repository as a Vite application.
-
-### Supabase
-
-Deploy the edge function from the repo:
-
-```bash
-supabase functions deploy send-notification-email
-```
-
-If you update secrets:
 
 ```bash
 supabase secrets set RESEND_API_KEY=... NOTIFY_TO=chekolengusalem@gmail.com RESEND_FROM="Portfolio <onboarding@resend.dev>"
 ```
 
-## Notes
+## Deploy
 
-- `.env` stays local and is already ignored by Git.
-- The repository no longer depends on client-side email sending.
-- The notification workflow is now fully server-side and easier to maintain.
+**Vercel** — set the `VITE_*` env vars above, deploy as a Vite app.
+
+**Supabase Edge Function:**
+
+```bash
+supabase functions deploy send-notification-email
+```
