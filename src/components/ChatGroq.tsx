@@ -1115,20 +1115,22 @@ Stay confident.
     extraSystemMessages.push({ role: "system", content: `LinkedIn: ${LINKEDIN_URL}` });
 
     try {
-      const res = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_GEMINI_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: import.meta.env.VITE_GEMINI_MODEL || "gemini-3.5-flash",
-            messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
-          }),
-        }
-      );
+      // The Gemini key lives in the `gemini-chat` Edge Function (secret GEMINI_API_KEY),
+      // never in the browser bundle. Only the public Supabase URL + anon key are used here.
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/gemini-chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          apikey: SUPABASE_ANON_KEY,
+        },
+        body: JSON.stringify({
+          messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
+        }),
+      });
 
       let data: any = null;
       try {

@@ -11,11 +11,13 @@ npm install
 Create `.env` at the project root:
 
 ```dotenv
-VITE_GEMINI_API_KEY=your_key
-VITE_GEMINI_MODEL=gemini-2.0-flash
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your_key
 ```
+
+Only `VITE_`-prefixed values are bundled into the browser, so the Gemini key is **not**
+kept here. It is a Supabase Edge Function secret instead — see
+[AI Chat Flow](#ai-chat-flow).
 
 ```bash
 npm run dev
@@ -45,6 +47,21 @@ src/
 supabase/
   functions/
   patches/
+```
+
+## AI Chat Flow
+
+The chat widget never talks to Google directly, so the Gemini key stays off the client:
+
+1. Browser posts `{ messages }` to the `gemini-chat` Edge Function (public anon key)
+2. The function attaches the private `GEMINI_API_KEY` and calls the Gemini API
+3. The Gemini response is returned to the browser unchanged
+
+Required Supabase secrets:
+
+```bash
+supabase secrets set GEMINI_API_KEY=... GEMINI_MODEL=gemini-3.5-flash
+supabase functions deploy gemini-chat
 ```
 
 ## Supabase Notification Flow
