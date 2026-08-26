@@ -127,7 +127,6 @@ export default function Feedback({ theme = "dark" }) {
       style={{
         background: t.bg,
         padding: "72px 0 80px",
-        marginLeft: "var(--sidebar-width, 230px)",
         fontFamily: "'Sora', sans-serif",
         width: "100%",
       }}
@@ -190,7 +189,6 @@ export default function Feedback({ theme = "dark" }) {
 
         @media (max-width: 860px) {
           #feedback {
-            margin-left: 0 !important;
             width: 100% !important;
             padding: 44px 0 56px !important;
           }
@@ -205,7 +203,7 @@ export default function Feedback({ theme = "dark" }) {
         }
       `}</style>
 
-      <div className="feedback-shell" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="feedback-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ marginBottom: "2.2rem" }}>
           <div style={{
             display: "inline-flex",

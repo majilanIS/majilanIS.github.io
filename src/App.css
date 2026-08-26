@@ -21,10 +21,9 @@ body,
 	overflow-x: hidden;
 }
 .main-content {
-  /* margin-left: 230px; */
-  width: calc(100% - var(--sidebar-width));
-  /* margin-left: var(--sidebar-width); */
-  min-height: 100vh;
+	margin-left: var(--sidebar-width);
+	width: auto;
+	min-height: 100vh;
 }
 .chat-fab,
 .chat-fab-shell {

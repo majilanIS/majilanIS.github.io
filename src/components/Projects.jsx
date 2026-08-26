@@ -166,12 +166,10 @@ export default function Projects({ theme = "dark" }) {
         position: "relative",
         overflow: "hidden",
         transition: "background 0.4s",
-        marginLeft: "var(--sidebar-width, 230px)",
         width: "100%",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
         *,*::before,*::after{box-sizing:border-box}
 
         .proj-tab {
@@ -201,11 +199,6 @@ export default function Projects({ theme = "dark" }) {
         }
 
         @media (max-width: 980px) {
-          #projects {
-            margin-left: 250px;
-            width: 100% !important;
-          }
-
           .projects-shell {
             width: 100% !important;
             max-width: 100% !important;
@@ -227,7 +220,7 @@ export default function Projects({ theme = "dark" }) {
       <div style={{ position: "absolute", top: -80, left: -60, width: 340, height: 340, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}0E 0%, transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 40, right: 0, width: 240, height: 240, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}09 0%, transparent 70%)`, pointerEvents: "none" }} />
 
-      <div className="projects-shell" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="projects-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)" }}>
 
         {/* ── Section header ── */}
         <div style={{ ...fadeUp(0.04), marginBottom: "2.5rem" }}>

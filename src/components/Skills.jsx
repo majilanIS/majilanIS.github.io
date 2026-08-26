@@ -166,14 +166,11 @@ export default function Skills({ theme = "dark" }) {
         position: "relative",
         overflow: "hidden",
         transition: "background 0.4s",
-        marginLeft: "var(--sidebar-width, 230px)",
         width: "100%",
       }}
     >
       {/* Font import */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap');
-
         .skill-tab {
           display: inline-flex; align-items: center; gap: 6px;
           font-family: 'Sora', sans-serif; font-size: 12.5px; font-weight: 600;
@@ -211,11 +208,6 @@ export default function Skills({ theme = "dark" }) {
         }
 
         @media (max-width: 980px) {
-          #skills {
-            margin-left: 200px;
-            width: 100% !important;
-          }
-
           .skills-shell {
             width: 100% !important;
             max-width: 100% !important;
@@ -228,7 +220,7 @@ export default function Skills({ theme = "dark" }) {
       <div style={{ position: "absolute", top: 0, right: 0, width: 320, height: 320, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}10 0%, transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 0, left: 200, width: 200, height: 200, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}08 0%, transparent 70%)`, pointerEvents: "none" }} />
 
-      <div className="skills-shell" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="skills-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)" }}>
 
         {/* ── Section header ── */}
         <div style={{ ...fadeUp(0.05), marginBottom: "2.5rem" }}>

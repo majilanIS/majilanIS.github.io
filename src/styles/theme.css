@@ -4,6 +4,8 @@
    Light / Dark Theme Support
 ========================================================= */
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
 /* =========================
    RESET
 ========================= */
@@ -179,7 +181,7 @@ body {
   color: var(--text-primary);
 
   font-family:
-    Inter,
+    "Manrope",
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -218,6 +220,8 @@ h5,
 h6 {
   color: var(--text-primary);
   font-weight: 700;
+  font-family: "Space Grotesk", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 p {

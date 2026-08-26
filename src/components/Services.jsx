@@ -283,7 +283,6 @@ export default function Services({ theme = "dark" }) {
         fontFamily: "'Sora', 'DM Sans', sans-serif",
         background: t.bg,
         minHeight: "100vh",
-        marginLeft: "var(--sidebar-width, 230px)",
         padding: "64px clamp(20px, 4vw, 56px) 80px",
         transition: "background 0.4s",
       }}
@@ -292,7 +291,7 @@ export default function Services({ theme = "dark" }) {
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         @media (max-width: 860px) {
-          #services { margin-left: 0 !important; padding: 40px 20px 60px !important; }
+          #services { padding: 40px 20px 60px !important; }
           .services-grid { grid-template-columns: 1fr !important; }
           .process-row { grid-template-columns: 1fr !important; }
           .process-connector { display: none !important; }

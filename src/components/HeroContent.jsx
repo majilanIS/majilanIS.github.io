@@ -108,16 +108,12 @@ export default function HeroContent({ theme }) {
       style={{ position: "relative", overflow: "hidden", width: "100%" }}
     >
       <style>{`
-          position: "relative",
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-          gap: "2rem",
         ::selection { background: ${t.accent}33; }
 
-          maxWidth: 1180,
-          marginLeft: "var(--sidebar-width, 230px)",
-          marginRight: "auto",
-          padding: "4rem 2rem 3.5rem 2rem",
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-8px); }
         }
         @keyframes pulse-ring {
@@ -163,7 +159,6 @@ export default function HeroContent({ theme }) {
 
         @media (max-width: 980px) {
           .hero-shell {
-            margin-left: 250px;
             max-width: 100% !important;
             padding-inline: clamp(16px, 4vw, 24px) !important;
             width: 100% !important;
@@ -265,21 +260,20 @@ export default function HeroContent({ theme }) {
           className="hero-shell hero-grid"
         style={{
           display: "flex",
-          justifyContent: "space-around",
-          gap: "clamp(2rem, 4vw, 5rem)",
+          justifyContent: "space-between",
+          gap: "clamp(1.25rem, 3vw, 3.25rem)",
           alignItems: "center",
           flexWrap: "nowrap",
-          width: "calc(100% - var(--sidebar-width, 230px))",
-          maxWidth: 1320,
-          marginLeft: "var(--sidebar-width, 230px)",
-          marginRight: "auto",
-          paddingInline: "clamp(24px, 4vw, 72px)",
+          width: "100%",
+          maxWidth: "100%",
+          margin: 0,
+          paddingInline: "clamp(20px, 4vw, 48px)",
           boxSizing: "border-box",
           overflow: "hidden",
         }}
       >
         {/* ── LEFT: Text content ── */}
-        <div>
+        <div style={{ flex: "1 1 0", minWidth: 0, maxWidth: 720 }}>
           {/* Name + Typewriter */}
           <div style={fadeIn(0.12)}>
             <p style={{ fontSize: 15, color: t.textMuted, fontWeight: 400, marginBottom: "0.3rem" }}>

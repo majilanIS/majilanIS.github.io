@@ -186,7 +186,6 @@ export default function HireMe({ theme = "dark" }) {
         fontFamily: "'Sora', 'DM Sans', sans-serif",
         background: t.bg,
         minHeight: "100vh",
-        marginLeft: "var(--sidebar-width, 230px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -223,7 +222,7 @@ export default function HireMe({ theme = "dark" }) {
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         select option { background: ${t.bgCard}; color: ${t.text}; }
         @media (max-width: 860px) {
-          #hire-me { margin-left: 0 !important; padding: 40px 20px !important; }
+          #hire-me { padding: 40px 20px !important; }
           .hire-grid { grid-template-columns: 1fr !important; }
           .hire-form-grid { grid-template-columns: 1fr !important; }
         }
@@ -234,7 +233,7 @@ export default function HireMe({ theme = "dark" }) {
         }
       `}</style>
 
-      <div style={{ width: "100%", maxWidth: 1020 }}>
+      <div style={{ width: "100%" }}>
 
         {/* Section heading */}
         <div style={{ marginBottom: "2.8rem" }}>

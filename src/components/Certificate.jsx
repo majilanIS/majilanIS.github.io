@@ -68,14 +68,12 @@ export default function Certificate({ theme = "dark" }) {
 				background: colors.bg,
 				color: colors.text,
 				padding: "60px clamp(20px, 4vw, 56px)",
-				marginLeft: "var(--sidebar-width, 230px)",
 				width: "100%",
 			}}
 		>
 			<style>{`
 				@media (max-width: 860px) {
 					#certificates {
-						margin-left: 0 !important;
 						width: 100% !important;
 						padding: 44px 20px !important;
 					}
@@ -92,7 +90,7 @@ export default function Certificate({ theme = "dark" }) {
 				}
 			`}</style>
 
-			<div style={{ maxWidth: 1100, margin: "0 auto" }}>
+			<div style={{ width: "100%", margin: 0 }}>
 				<div style={{ marginBottom: 24 }}>
 					<p
 						style={{

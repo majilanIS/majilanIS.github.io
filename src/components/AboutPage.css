@@ -5,8 +5,7 @@
   background: radial-gradient(circle at top, var(--bg, #111827), var(--bgNav, #0b0f19));
   min-height: 100vh;
   font-family: "Inter", "Arial", sans-serif;
-  margin-left: var(--sidebar-width, 230px);
-  width: calc(100% - var(--sidebar-width, 230px));
+  width: 100%;
   overflow-x: clip;
 }
 .about-container {
