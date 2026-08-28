@@ -25,7 +25,7 @@ serve(async (req: Request) => {
       return json({ error: "invalid JSON" }, 400);
     }
 
-    const messages = payload?.messages;
+    const { messages, stream = false } = payload;
     if (!Array.isArray(messages) || messages.length === 0) {
       return json({ error: "messages must be a non-empty array" }, 400);
     }
@@ -45,8 +45,22 @@ serve(async (req: Request) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${geminiApiKey}`,
       },
-      body: JSON.stringify({ model, messages }),
+      body: JSON.stringify({ model, messages, stream }),
     });
+
+    if (stream) {
+      // Proxy the model's SSE stream straight back to the client.
+      return new Response(res.body, {
+        status: 200,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+          "X-Accel-Buffering": "no",
+        },
+      });
+    }
 
     const data = await res.json().catch(() => null);
     if (!res.ok) {

@@ -82,35 +82,13 @@ export function ChatGroq({ theme = "dark", onClose }: { theme?: "dark" | "light"
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const [typingContent, setTypingContent] = useState("");
+  const [streaming, setStreaming] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, typingContent]);
-
-  // Typing effect for assistant
-  useEffect(() => {
-    if (!isTyping) return;
-
-    const fullText = messages[messages.length - 1]?.content || "";
-    let currentIndex = 0;
-
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setTypingContent(fullText.substring(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(typingInterval);
-        setIsTyping(false);
-        setTypingContent("");
-      }
-    }, 20);
-
-    return () => clearInterval(typingInterval);
-  }, [isTyping, messages]);
+  }, [messages, streaming]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -1129,74 +1107,86 @@ Stay confident.
         },
         body: JSON.stringify({
           messages: [systemPrompt, ...extraSystemMessages, ...messages, newMessage],
+          stream: true,
         }),
       });
 
-      let data: any = null;
-      try {
-        data = await res.json();
-      } catch (parseErr) {
-        const text = await res.text().catch(() => "<unreadable>");
-        console.error("Failed to parse Gemini response as JSON:", parseErr, text);
+      if (!res.ok || !res.body) {
+        let detail = `Status ${res.status}`;
+        try {
+          const data = await res.json();
+          detail = data?.error?.message || data?.message || JSON.stringify(data) || detail;
+        } catch {
+          /* ignore */
+        }
         setMessages((prev) => [
           ...prev,
-          {
-            role: "assistant",
-            content: `⚠️ No reply from AI (invalid JSON response). ${res.status ? `Status: ${res.status}` : ""}`,
-          },
+          { role: "assistant", content: `⚠️ Gemini error ${res.status}: ${detail}` },
         ]);
         return;
       }
 
-      if (!res.ok) {
-        console.error("Gemini API error:", res.status, data);
-        const serverMsg = data?.error?.message || data?.message || JSON.stringify(data);
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            content: `⚠️ Gemini error ${res.status}: ${serverMsg}`,
-          },
-        ]);
-        return;
-      }
+      // Read the SSE stream and render tokens as they arrive.
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let fullReply = "";
 
-      // Support several possible response shapes from LLM providers
-      const reply =
-        data?.choices?.[0]?.message?.content ||
-        data?.choices?.[0]?.text ||
-        data?.output?.[0]?.content?.[0]?.text ||
-        data?.result ||
-        null;
+      setStreaming("");
 
-      if (!reply) {
-        console.error("Unexpected Gemini response shape:", data);
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            content: "⚠️ No reply from AI (unexpected response). Check console for details.",
-          },
-        ]);
+      const read = async (): Promise<void> => {
+        const { done, value } = await reader.read();
+        if (done) return;
+
+        buffer += decoder.decode(value, { stream: true });
+        const chunks = buffer.split("\n\n");
+        buffer = chunks.pop() || "";
+
+        for (const chunk of chunks) {
+          const line = chunk.split("\n").find((l) => l.startsWith("data: "));
+          if (!line) continue;
+          const dataStr = line.slice(6);
+          if (dataStr === "[DONE]") continue;
+
+          try {
+            const parsed = JSON.parse(dataStr);
+            const delta =
+              parsed?.choices?.[0]?.delta?.content ??
+              parsed?.choices?.[0]?.message?.content ??
+              "";
+            if (delta) {
+              fullReply += delta;
+              setStreaming(fullReply);
+            }
+          } catch {
+            /* ignore malformed chunk */
+          }
+        }
+
+        return read();
+      };
+
+      await read();
+
+      if (fullReply.trim()) {
+        setMessages((prev) => [...prev, { role: "assistant", content: fullReply }]);
       } else {
-        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
-        setIsTyping(true);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "⚠️ No reply from AI. Please try again." },
+        ]);
       }
     } catch (err) {
       console.error("Error chatting with Gemini:", err);
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "⚠️ Sorry, I couldn't process that request. Please try again.",
-        },
+        { role: "assistant", content: "⚠️ Sorry, I couldn't process that request. Please try again." },
       ]);
     } finally {
+      setStreaming("");
       setIsLoading(false);
     }
   }
-
-  const LastMessage = messages.length - 1;
 
   return (
     <motion.div
@@ -1326,8 +1316,7 @@ Stay confident.
         }}
         className="custom-scrollbar"
       >
-        {messages.map((msg, idx) =>
-          idx === LastMessage && isTyping ? null : (
+        {messages.map((msg, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 10 }}
@@ -1405,7 +1394,7 @@ Stay confident.
           )
         )}
 
-        {isTyping && (
+        {isLoading && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1443,7 +1432,7 @@ Stay confident.
                 lineHeight: "1.4",
               }}
             >
-              {typingContent || "Thinking..."}
+              {streaming || "Thinking..."}
               <motion.span
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 1, repeat: Infinity }}
