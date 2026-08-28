@@ -29,3 +29,6 @@ dist-ssr
 .env.*.local
 
 *.mp4
+
+# Supabase CLI local state
+supabase/.temp/
