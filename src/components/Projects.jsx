@@ -41,6 +41,22 @@ const THEMES = {
 ───────────────────────────────────────────────────────────── */
 const PROJECTS = [
   {
+    id: "LearnOS",
+    title: "LearnOS",
+    tagline: "Full-featured LMS with real-time classes, grading, and role-based access",
+    category: "Education / EdTech",
+    icon: "📚",
+    accent: "#3B82F6",
+    featured: true,
+    filter: "fullstack",
+    image: portfolioImg,
+    problem: "Institutions manage courses across disconnected tools — spreadsheets for students, drives for materials, email for assignments, and separate meeting links for live classes.",
+    description: "A comprehensive learning management system connecting identity, enrollment, courses, assignments, live classes, and communication in one platform. Features Super Admin, Instructor, and Student roles with invitation-based onboarding, GridFS file storage, LiveKit live classes, real-time Socket.IO discussions, and calendar/schedule management.",
+    tags: ["Node.js", "Express", "React", "MongoDB", "LiveKit", "Socket.IO", "Docker"],
+    githubUrl: "https://github.com/majilanIS/ETedTech",
+    liveUrl: "https://e-ted-tech.vercel.app/",
+  },
+  {
     id: "agrivita",
     title: "AgriVita",
     tagline: "AI-powered crop disease & pest detection with profit optimization",
