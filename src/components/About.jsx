@@ -29,9 +29,15 @@ const THEMES = {
 const experience = [
   {
     title: "YEEAP AI – AI Studies",
-    time: "03/2026 - Present",
+    time: "01/2026 – 03/2026",
     location: "Online",
-    desc: "Studying modern AI systems, LLMs, and real-world AI applications.",
+    desc: "Completed a 3-month course on modern AI systems, LLMs, and real-world AI applications.",
+  },
+  {
+    title: "Safe Transport – eReceipt (AIBOS)",
+    time: "3 Months",
+    location: "In Person",
+    desc: "Practical 3-month project work on ERP integration — built the AIBOS eReceipt platform to issue branded digital receipts for real business transactions.",
   },
   {
     title: "10 Academy × Kifiya",
@@ -60,6 +66,11 @@ const education = [
     desc: "Bachelor of Information Science",
   },
   {
+    title: "Self-Learning & Online Courses",
+    time: "Ongoing",
+    desc: "Self-directed learning on the web — actively progressing through Machine Learning, Data, and Deep Learning.",
+  },
+  {
     title: "ISHUB Backend Camp",
     time: "07/2025 – 09/2025",
     desc: "Express.js & MongoDB backend development",
@@ -77,7 +88,7 @@ export default function AboutPage({ theme = "dark" }) {
         id="about"
       className="about-container"
       style={{
-        background: `radial-gradient(circle at top, ${t.bg}, ${t.bgNav})`,
+        background: "transparent",
         color: t.text,
         overflowX: "clip",
         width: "100%",

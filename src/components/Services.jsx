@@ -281,7 +281,7 @@ export default function Services({ theme = "dark" }) {
       id="services"
       style={{
         fontFamily: "'Sora', 'DM Sans', sans-serif",
-        background: t.bg,
+        background: "transparent",
         minHeight: "100vh",
         padding: "64px clamp(20px, 4vw, 56px) 80px",
         transition: "background 0.4s",

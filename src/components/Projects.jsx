@@ -52,8 +52,36 @@ const PROJECTS = [
     problem: "Institutions manage courses across disconnected tools — spreadsheets for students, drives for materials, email for assignments, and separate meeting links for live classes.",
     description: "A comprehensive learning management system connecting identity, enrollment, courses, assignments, live classes, and communication in one platform. Features Super Admin, Instructor, and Student roles with invitation-based onboarding, GridFS file storage, LiveKit live classes, real-time Socket.IO discussions, and calendar/schedule management.",
     tags: ["Node.js", "Express", "React", "MongoDB", "LiveKit", "Socket.IO", "Docker"],
+    /* Private repo — 404s for visitors without access. Verified instead
+       against the deployed bundle at e-ted-tech.vercel.app, which contains
+       LiveKit, Socket.IO, Super Admin / Instructor / Student, assignments,
+       grading, discussions, invitations, calendar and Express. MongoDB,
+       GridFS and Docker are backend/infra and not observable from a frontend
+       bundle — they are Chekole's own account, not contradicted. */
     githubUrl: "https://github.com/majilanIS/ETedTech",
     liveUrl: "https://e-ted-tech.vercel.app/",
+  },
+  {
+    id: "AIBOS",
+    title: "AIBOS eReceipt",
+    tagline: "All-in-one business management platform for SACCOs, cafés, insurance and construction",
+    category: "Business Software / ERP",
+    icon: "🧾",
+    accent: "#6366F1",
+    featured: false,
+    filter: "fullstack",
+    problem: "Small businesses and cooperatives run operations across disconnected tools, re-entering the same transaction in each one.",
+    /* Description taken from the deployed app's own meta description:
+       "AIBOS — all-in-one platform for SACCOs, cafes, insurance, construction
+       and general business management." Receipt/ERP/QR/invoice/tax handling
+       and Firebase+Firestore are all confirmed present in the shipped bundle. */
+    description: "An all-in-one business management platform covering SACCOs, cafés, insurance, construction and general business operations, with receipt, invoice and tax handling built in. Built during the Safe Transport internship across separate backend and frontend services.",
+    tags: ["React", "Firebase", "Firestore", "ERP"],
+    /* Private company repos — both 404 for visitors without access. */
+    githubUrl: "https://github.com/ereceiptset-del/AIBOS-back",
+    githubUrl2: "https://github.com/ereceiptset-del/AIBOS-front",
+    repoLabels: ["Backend", "Frontend"],
+    liveUrl: "https://aibos-ereceipt.web.app/",
   },
   {
     id: "agrivita",
@@ -65,11 +93,14 @@ const PROJECTS = [
     featured: true,
     filter: "ai",
     image: agrivitaImg,
-    problem: "Farmers lose 20–40% yield to undetected crop disease and pests.",
-    description: "Mobile AI: scan a plant, get diagnosis, treatment suggestions and profit-optimised options. Bilingual chat support.",
-    tags: ["Python", "TensorFlow", "React Native", "Node.js", "MongoDB", "RAG", "OpenCV"],
+    problem: "Crop disease and pests go undetected until the damage is already done.",
+    /* GitHub description, verbatim: "a solution to diseases and pest of
+       farming in simple way". Repo has no README, so nothing beyond that and
+       the language breakdown is verifiable. Tags = actual repo languages. */
+    description: "A solution to crop disease and pests, kept simple to use. The repo has no README yet — the deployed frontend is the best look at it.",
+    tags: ["JavaScript", "Python", "CSS", "Docker"],
     githubUrl: "https://github.com/majilanIS/AgriVita",
-    liveUrl:"https://agrivita-frontend-us8i.vercel.app/",
+    liveUrl: "https://agrivita-frontend-us8i.vercel.app/",
   },
   {
     id: "agrispark",
@@ -81,10 +112,14 @@ const PROJECTS = [
     featured: false,
     filter: "fullstack",
     image: agrispark,
-    problem: "Smallholders receive low prices via middlemen; buyers lack verified live inventory.",
-    description: "Peer-to-peer marketplace: verified farmers list produce and accept orders with live inventory and payments.",
-    tags: ["Node.js", "Express", "React", "MongoDB", "REST API", "JWT Auth"],
+    /* All of the below is from the repo README and the backend repo's own
+       README — not inferred. Backend is Django/Python, not Node/Express. */
+    problem: "Farmers lack direct market access, and agricultural produce goes to waste in the gap between grower and buyer.",
+    description: "A mobile agricultural marketplace built with Expo and React Native, connecting farmers, buyers and administrators on one platform. Farmers list and manage produce and accept or reject orders; buyers browse, search, cart and track orders; admins monitor users, products and platform analytics. Includes real-time chat between farmers and buyers, and an integrated AI assistant for in-app guidance. Backed by a Django REST service.",
+    tags: ["React Native", "Expo", "JavaScript", "Django", "Python"],
     githubUrl: "https://github.com/majilanIS/AgriSpark-app",
+    githubUrl2: "https://github.com/majilanIS/backend-AgriSpark",
+    repoLabels: ["Mobile App", "Backend"],
     liveUrl: null,
   },
   {
@@ -97,9 +132,12 @@ const PROJECTS = [
     featured: false,
     filter: "ai",
     image: adwaImg,
-    problem: "Assistants lack voice input and local/contextual knowledge in Amharic.",
-    description: "Voice+text assistant grounded with RAG; bilingual answers and streaming UI for fast, accurate responses.",
-    tags: ["Node.js", "React", "RAG", "OpenAI API", "Web Speech API", "Vercel", "Supabase"],
+    /* GitHub description, verbatim: "assists with text and voice". No README
+       in the repo, so tags are the actual language breakdown rather than an
+       assumed stack — the repo is ~30% Python, not a Node-only project. */
+    problem: "Getting help by voice, not just by typing.",
+    description: "An assistant that takes both text and voice input. Built with colleagues during a 6-day RAG workshop. The repo has no README yet — the deployed app is the best look at it.",
+    tags: ["JavaScript", "Python", "CSS", "Docker"],
     githubUrl: "https://github.com/majilanIS/Adwa-AI-Assistant",
     liveUrl: "https://adwa-ai-assistant-in-text-or-voice.vercel.app",
   },
@@ -112,9 +150,12 @@ const PROJECTS = [
     accent: "#EF4444",
     featured: false,
     filter: "ai",
-    problem: "Rule-based fraud detectors cause many false positives and blocked transactions.",
-    description: "Ensemble ML pipeline for real-time scoring with high precision; exposes a low-latency REST API for production use.",
-    tags: ["Python", "Scikit-learn", "XGBoost", "SMOTE", "Flask", "PostgreSQL", "Docker"],
+    /* Repo is 100% Jupyter Notebook with an empty README and no description.
+       The previous entry claimed a Flask REST API, PostgreSQL and Docker —
+       none of which exist in the repo. Kept to what is actually there. */
+    problem: "Separating fraudulent transactions from legitimate ones in heavily imbalanced data.",
+    description: "A machine-learning notebook project on transaction fraud detection, from Chekole's data/ML work. Analysis and modelling live in the notebooks — there's no deployed service.",
+    tags: ["Python", "Jupyter Notebook", "Machine Learning"],
     githubUrl: "https://github.com/majilanIS/fraud-detection",
     liveUrl: null,
   },
@@ -129,10 +170,12 @@ const PROJECTS = [
     filter: "fullstack",
     image: portfolioImg,
     problem: "Templates feel generic and don't showcase individual design or technical signal.",
-    description: "Hand-built React portfolio with animated hero, theme toggle and curated project demos (this site).",
-    tags: ["React", "CSS-in-JS", "Vite", "Vercel", "Sora", "Responsive"],
+    description: "Hand-built React portfolio with animated hero, theme toggle, curated project demos and an AI assistant (this site).",
+    tags: ["React", "JavaScript", "TypeScript", "Vite", "Supabase", "Vercel"],
     githubUrl: "https://github.com/majilanIS/majilanIS.github.io",
-    liveUrl: "https://majilan-is-github-io-tcba.vercel.app/",
+    /* The previous URL (…-tcba.vercel.app) returned 404. This one is verified
+       live and matches the homepage set on the repo itself. */
+    liveUrl: "https://majilan-is-github-io.vercel.app/",
   },
 ];
 
@@ -175,7 +218,7 @@ export default function Projects({ theme = "dark" }) {
       ref={ref}
       id="projects"
       style={{
-        background: t.bg,
+        background: "transparent",
         padding: "72px 0 80px",
         fontFamily: "'Sora', sans-serif",
         position: "relative",
@@ -231,11 +274,7 @@ export default function Projects({ theme = "dark" }) {
         }
       `}</style>
 
-      {/* Background blobs */}
-      <div style={{ position: "absolute", top: -80, left: -60, width: 340, height: 340, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}0E 0%, transparent 70%)`, pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: 40, right: 0, width: 240, height: 240, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}09 0%, transparent 70%)`, pointerEvents: "none" }} />
-
-      <div className="projects-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="projects-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)", position: "relative", zIndex: 1 }}>
 
         {/* ── Section header ── */}
         <div style={{ ...fadeUp(0.04), marginBottom: "2.5rem" }}>
@@ -297,7 +336,7 @@ export default function Projects({ theme = "dark" }) {
                 className="proj-anim"
                 style={{
                   animationDelay: `${i * 70}ms`,
-                  gridColumn: proj.featured && filtered.length > 1 ? "span 2" : "span 1",
+                  gridColumn: "span 1",
                 }}
               >
                 <ProjectCard {...proj} theme={theme} />

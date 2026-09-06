@@ -12,6 +12,10 @@
 
 body {
 	overflow-x: hidden;
+	/* Solid ground under the fixed PageBackdrop — keeps overscroll and the
+	   area behind any transparent section on-theme. */
+	background: var(--bg, #111111);
+	transition: background 0.4s;
 }
 
 html,
@@ -24,6 +28,9 @@ body,
 	margin-left: var(--sidebar-width);
 	width: auto;
 	min-height: 100vh;
+	/* Stack above the fixed PageBackdrop at z-index 0 */
+	position: relative;
+	z-index: 1;
 }
 .chat-fab,
 .chat-fab-shell {

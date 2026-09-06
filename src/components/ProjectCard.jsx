@@ -14,6 +14,8 @@ import { useState, useRef, useEffect } from "react";
  *   category     {string}   e.g. "AI / AgriTech"
  *   stats        {Array}    [{label, value}] — impact numbers
  *   githubUrl    {string}   GitHub link
+ *   githubUrl2   {string}   second GitHub link (optional) — e.g. split back/front repos
+ *   repoLabels   {string[]} labels for the repo buttons, defaults to ["Backend","Frontend"]
  *   liveUrl      {string}   Live demo link (optional)
  *   featured     {boolean}  renders slightly larger/highlighted
  *   theme        {string}   "dark" | "light"
@@ -29,6 +31,8 @@ export default function ProjectCard({
   category = "",
   stats = [],
   githubUrl = "#",
+  githubUrl2 = null,
+  repoLabels = ["Backend", "Frontend"],
   liveUrl = null,
   demoVideo = null,
   image = null,
@@ -51,6 +55,16 @@ export default function ProjectCard({
   const btnBg    = dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
   const btnBdr   = dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
 
+  /* Two repos → label them so it's obvious which half of the stack each
+     points at. One → "GitHub", unless repoLabels overrides it (a private
+     project links the profile, which deserves a clearer label). */
+  const repos = githubUrl2
+    ? [
+        { url: githubUrl, label: repoLabels[0] ?? "Backend" },
+        { url: githubUrl2, label: repoLabels[1] ?? "Frontend" },
+      ]
+    : [{ url: githubUrl, label: repoLabels?.[0] ?? "GitHub" }];
+
   return (
     <div
       className="project-card"
@@ -72,7 +86,6 @@ export default function ProjectCard({
           : dark ? "0 2px 8px rgba(0,0,0,0.3)" : "0 2px 8px rgba(0,0,0,0.06)",
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
         transition: "all 0.28s cubic-bezier(0.22,1,0.36,1)",
-        gridColumn: featured ? "span 2" : "span 1",
       }}
     >
       <style>{`
@@ -258,20 +271,22 @@ export default function ProjectCard({
       </div>
 
       {/* Action buttons */}
-      <div className="project-actions" style={{ display: "flex", gap: 8 }}>
-        <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{
-          display: "inline-flex", alignItems: "center", gap: 5,
-          background: btnBg, border: `1px solid ${btnBdr}`,
-          borderRadius: 7, padding: "6px 12px", textDecoration: "none",
-          fontSize: 11.5, fontWeight: 700, color: textSub, fontFamily: "'Sora',sans-serif",
-          transition: "border-color 0.2s, color 0.2s, background 0.2s",
-        }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = accent + "66"; e.currentTarget.style.color = accent; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = btnBdr; e.currentTarget.style.color = textSub; }}
-        >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.76c0 4.96 3.22 9.17 7.7 10.65.56.1.76-.24.76-.54 0-.27-.01-1-.01-1.95-3.13.68-3.8-1.51-3.8-1.51-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 .17 1.55.93 1.55.93.99 1.7 2.6 1.21 3.24.93.1-.72.39-1.21.71-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.47.11-3.06 0 0 .95-.3 3.12 1.15a10.8 10.8 0 0 1 2.84-.38c.96 0 1.92.13 2.84.38 2.16-1.45 3.11-1.15 3.11-1.15.61 1.59.23 2.77.12 3.06.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.76 1.05.76 2.12 0 1.53-.01 2.77-.01 3.15 0 .3.2.65.77.54 4.48-1.48 7.69-5.69 7.69-10.65C23.25 5.48 18.27.5 12 .5z"/></svg>
-          GitHub
-        </a>
+      <div className="project-actions" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {repos.map(({ url, label }) => (
+          <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{
+            display: "inline-flex", alignItems: "center", gap: 5,
+            background: btnBg, border: `1px solid ${btnBdr}`,
+            borderRadius: 7, padding: "6px 12px", textDecoration: "none",
+            fontSize: 11.5, fontWeight: 700, color: textSub, fontFamily: "'Sora',sans-serif",
+            transition: "border-color 0.2s, color 0.2s, background 0.2s",
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = accent + "66"; e.currentTarget.style.color = accent; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = btnBdr; e.currentTarget.style.color = textSub; }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.76c0 4.96 3.22 9.17 7.7 10.65.56.1.76-.24.76-.54 0-.27-.01-1-.01-1.95-3.13.68-3.8-1.51-3.8-1.51-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 .17 1.55.93 1.55.93.99 1.7 2.6 1.21 3.24.93.1-.72.39-1.21.71-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.47.11-3.06 0 0 .95-.3 3.12 1.15a10.8 10.8 0 0 1 2.84-.38c.96 0 1.92.13 2.84.38 2.16-1.45 3.11-1.15 3.11-1.15.61 1.59.23 2.77.12 3.06.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.76 1.05.76 2.12 0 1.53-.01 2.77-.01 3.15 0 .3.2.65.77.54 4.48-1.48 7.69-5.69 7.69-10.65C23.25 5.48 18.27.5 12 .5z"/></svg>
+            {label}
+          </a>
+        ))}
         {liveUrl ? (
           <a href={liveUrl} target="_blank" rel="noopener noreferrer" style={{
             display: "inline-flex", alignItems: "center", gap: 5,

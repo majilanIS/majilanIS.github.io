@@ -1,8 +1,9 @@
 /* ===== GLOBAL PAGE ===== */
 .about-container {
   padding: 48px 36px;
-  /* use global theme variables set on :root for consistency */
-  background: radial-gradient(circle at top, var(--bg, #111827), var(--bgNav, #0b0f19));
+  /* Transparent so the page-wide PageBackdrop (gradient, aurora, star flock)
+     shows through instead of being covered by a section-local fill. */
+  background: transparent;
   min-height: 100vh;
   font-family: "Inter", "Arial", sans-serif;
   width: 100%;

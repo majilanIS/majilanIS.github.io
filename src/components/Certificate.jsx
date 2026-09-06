@@ -65,7 +65,7 @@ export default function Certificate({ theme = "dark" }) {
 		<section
 			id="certificates"
 			style={{
-				background: colors.bg,
+				background: "transparent",
 				color: colors.text,
 				padding: "60px clamp(20px, 4vw, 56px)",
 				width: "100%",

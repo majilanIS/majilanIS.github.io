@@ -10,6 +10,12 @@ const THEMES = {
     bg: "#111111",
     bgCard: "#191919",
     bgSection: "#141414",
+    /* Translucent so the star flock drifts visibly behind each panel.
+       Deliberately LIGHTER than every stop of the page gradient (#171717 →
+       #0C0C0C), so the panel reads as raised no matter where it sits on the
+       scroll. The previous value was darker than the ground at the top and
+       lighter at the bottom, so its elevation flipped as you scrolled. */
+    panelBg: "rgba(38,38,38,0.62)",
     accent: "#FF6B1A",
     accentDim: "rgba(255,107,26,0.10)",
     text: "#F2F2F2",
@@ -27,6 +33,10 @@ const THEMES = {
     bg: "#F5F2EE",
     bgCard: "#FFFFFF",
     bgSection: "#EDEAE6",
+    /* Lighter than every stop of the light gradient (#FBF9F6 → #EBE7E0), and
+       white like the project cards — so "elevated surface" means the same
+       thing everywhere in light mode. */
+    panelBg: "rgba(255,255,255,0.70)",
     accent: "#E85D04",
     accentDim: "rgba(232,93,4,0.08)",
     text: "#1A1A1A",
@@ -70,6 +80,8 @@ const ALL_SKILLS = [
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
   { name: "PostgreSQL", icon: "🐘", level: 82, category: "SQL", group: "Databases",
     iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+  { name: "Firebase", icon: "🔥", level: 84, category: "BaaS", group: "Databases",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
   { name: "Supabase", icon: "⚡", level: 78, category: "BaaS", group: "Databases",
     iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/supabase.svg" },
   { name: "SQL Server", icon: "🗄", level: 75, category: "SQL", group: "Databases" },
@@ -101,6 +113,12 @@ const ALL_SKILLS = [
   { name: "RAG Systems", icon: "🔗", level: 82, category: "AI", group: "AI & Data" },
   { name: "Data Analysis", icon: "📊", level: 80, category: "Data", group: "AI & Data" },
   { name: "AI Applications", icon: "🤖", level: 85, category: "AI", group: "AI & Data" },
+  { name: "Scikit-learn", icon: "🧪", level: 76, category: "ML Tool", group: "AI & Data",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" },
+  { name: "TensorFlow", icon: "🧬", level: 70, category: "DL Framework", group: "AI & Data",
+    iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
+  { name: "XGBoost", icon: "⚡", level: 72, category: "ML Model", group: "AI & Data" },
+  { name: "Deep Learning", icon: "🔬", level: 52, category: "AI", group: "AI & Data" }, // in progress
 ];
 
 const GROUPS = ["All", ...Array.from(new Set(ALL_SKILLS.map((s) => s.group)))];
@@ -160,7 +178,7 @@ export default function Skills({ theme = "dark" }) {
       ref={ref}
       id="skills"
       style={{
-        background: t.bg,
+        background: "transparent",
         padding: "72px 0 80px",
         fontFamily: "'Sora', sans-serif",
         position: "relative",
@@ -185,13 +203,32 @@ export default function Skills({ theme = "dark" }) {
           display: flex; align-items: center; gap: 10px;
           flex-wrap: wrap;
           min-width: 0;
-          margin: 0 0 16px;
+          margin: 0 0 12px;
         }
 
+        /* Group panels tile side by side so the whole stack stays compact
+           instead of running down the page one full-width block at a time. */
+        .skill-groups {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+          gap: 16px;
+          align-items: start;
+        }
+
+        /* Square tiles — the column width sets the height via aspect-ratio,
+           so the min track is what keeps the squares a sensible size. */
         .skill-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-          gap: 12px;
+          grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+          gap: 9px;
+        }
+
+        /* A single selected group gets the full page width, where auto-fill
+           would otherwise stretch one row of tiles across the whole screen.
+           Cap the track so the squares stay the same size as in the All view. */
+        .skill-groups.single .skill-grid {
+          grid-template-columns: repeat(auto-fill, minmax(112px, 132px));
+          justify-content: start;
         }
 
         @keyframes fadeSlideUp {
@@ -203,7 +240,12 @@ export default function Skills({ theme = "dark" }) {
         }
 
         @media (max-width: 640px) {
-          .skill-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+          .skill-groups { grid-template-columns: 1fr; }
+          .skill-grid,
+          .skill-groups.single .skill-grid {
+            grid-template-columns: repeat(auto-fill, minmax(98px, 1fr));
+            gap: 8px;
+          }
           .tabs-row { flex-wrap: wrap !important; }
         }
 
@@ -216,11 +258,7 @@ export default function Skills({ theme = "dark" }) {
         }
       `}</style>
 
-      {/* Background blobs */}
-      <div style={{ position: "absolute", top: 0, right: 0, width: 320, height: 320, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}10 0%, transparent 70%)`, pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: 0, left: 200, width: 200, height: 200, borderRadius: "50%", background: `radial-gradient(circle, ${t.accent}08 0%, transparent 70%)`, pointerEvents: "none" }} />
-
-      <div className="skills-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="skills-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)", position: "relative", zIndex: 1 }}>
 
         {/* ── Section header ── */}
         <div style={{ ...fadeUp(0.05), marginBottom: "2.5rem" }}>
@@ -249,7 +287,7 @@ export default function Skills({ theme = "dark" }) {
         </div>
 
         {/* ── Filter tabs ── */}
-        <div style={{ ...fadeUp(0.12), marginBottom: "2.5rem" }}>
+        <div style={{ ...fadeUp(0.12), marginBottom: "1.6rem" }}>
           <div className="tabs-row" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {GROUPS.map((g) => {
               const isActive = activeGroup === g;
@@ -275,7 +313,7 @@ export default function Skills({ theme = "dark" }) {
         </div>
 
         {/* ── Skill groups ── */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
+        <div className={`skill-groups${groupedView ? "" : " single"}`}>
           {groupsInView.map((group, gi) => {
             const skills = groupedView
               ? ALL_SKILLS.filter((s) => s.group === group)
@@ -288,10 +326,13 @@ export default function Skills({ theme = "dark" }) {
                 key={group}
                 style={{
                   ...fadeUp(0.08 + gi * 0.06),
-                  background: t.bgSection,
+                  /* No backdrop-filter: blurring the fixed star canvas behind
+                     each panel was another source of stale compositor tiles.
+                     The panel is simply translucent instead. */
+                  background: t.panelBg,
                   border: `1px solid ${t.border}`,
-                  borderRadius: 16,
-                  padding: "24px 24px 20px",
+                  borderRadius: 14,
+                  padding: "16px 16px 15px",
                   position: "relative",
                   overflow: "hidden",
                   transition: "border-color 0.25s",
@@ -311,30 +352,30 @@ export default function Skills({ theme = "dark" }) {
                 {/* Group heading */}
                 <div className="group-heading">
                   <div style={{
-                    width: 34, height: 34, borderRadius: 9,
+                    width: 28, height: 28, borderRadius: 8,
                     background: `${groupAccent}18`,
                     border: `1px solid ${groupAccent}33`,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 17, flexShrink: 0,
+                    fontSize: 14, flexShrink: 0,
                   }}>
                     {meta?.icon || "📦"}
                   </div>
-                  <div>
-                    <div style={{ fontWeight: 800, fontSize: 14, color: t.text, letterSpacing: "-0.01em" }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: 13, color: t.text, letterSpacing: "-0.01em" }}>
                       {group}
                     </div>
-                    <div style={{ fontSize: 11, color: t.textMuted }}>
+                    <div style={{ fontSize: 10.5, color: t.textMuted }}>
                       {skills.length} skill{skills.length !== 1 ? "s" : ""}
                     </div>
                   </div>
 
-                  {/* Progress summary bar */}
+                  {/* Group average proficiency */}
                   <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{
-                      fontSize: 11, fontWeight: 700, color: groupAccent,
+                      fontSize: 10.5, fontWeight: 700, color: groupAccent,
                       background: `${groupAccent}15`,
                       border: `1px solid ${groupAccent}30`,
-                      borderRadius: 999, padding: "2px 9px",
+                      borderRadius: 999, padding: "2px 8px",
                     }}>
                       avg {Math.round(skills.reduce((s, k) => s + k.level, 0) / skills.length)}%
                     </div>
@@ -350,6 +391,7 @@ export default function Skills({ theme = "dark" }) {
                       style={{ animationDelay: `${si * 55}ms` }}
                     >
                       <SkillCard
+                        compact
                         name={skill.name}
                         icon={skill.icon}
                         iconUrl={skill.iconUrl}

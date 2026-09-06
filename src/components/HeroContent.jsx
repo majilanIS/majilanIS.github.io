@@ -157,6 +157,35 @@ export default function HeroContent({ theme }) {
         }
         .stat-card:hover { border-color: ${t.borderAccent}; }
 
+        /* ── Portrait frame ──
+           The brackets are positioned against .hero-frame, and .hero-frame is
+           exactly the image box — so all four corners land on the photo. */
+        .hero-frame { position: relative; width: 100%; }
+        .hero-frame-corner {
+          position: absolute; z-index: 2; pointer-events: none;
+          transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s;
+        }
+        /* On hover the brackets pull outward — the frame "opens up" */
+        .hero-frame:hover .hero-frame-corner-tl { transform: translate(-4px,-4px); }
+        .hero-frame:hover .hero-frame-corner-br { transform: translate(4px,4px); }
+        .hero-frame:hover .hero-frame-corner-tr { transform: translate(4px,-4px); opacity: 0.7; }
+        .hero-frame:hover .hero-frame-corner-bl { transform: translate(-4px,4px); opacity: 0.7; }
+
+        .hero-frame-img {
+          width: 100%; height: 100%; display: block;
+          object-fit: cover;
+          /* Bias upward so there is headroom above the head instead of a
+             crop tight to the hairline. */
+          object-position: 50% 12%;
+          transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+        }
+        .hero-frame:hover .hero-frame-img { transform: scale(1.035); }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-frame-img, .hero-frame-corner { transition: none !important; }
+          .hero-frame:hover .hero-frame-img { transform: none !important; }
+        }
+
         @media (max-width: 980px) {
           .hero-shell {
             max-width: 100% !important;
@@ -228,31 +257,9 @@ export default function HeroContent({ theme }) {
         }
       `}</style>
 
-      {/* Background decoration */}
-      <div
-        style={{
-          position: "absolute",
-          top: -80,
-          right: 100,
-          width: 400,
-          height: 400,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${t.accent}18 0%, transparent 68%)`,
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: -60,
-          left: 80,
-          width: 260,
-          height: 260,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${t.accent}0F 0%, transparent 68%)`,
-          pointerEvents: "none",
-        }}
-      />
+      {/* Background decoration lives in PageBackdrop now, so the hero shares
+          the same continuous gradient, aurora and star flock as every other
+          section instead of layering its own blobs on top. */}
 
       {/* Hero grid */}
       <div
@@ -319,11 +326,12 @@ export default function HeroContent({ theme }) {
             }}
           >
             I build{" "}
-            <span style={{ color: t.text, fontWeight: 600 }}>scalable backend systems</span>,
+            <span style={{ color: t.text, fontWeight: 600 }}>production-ready backend systems</span>,
             RESTful APIs, and{" "}
             <span style={{ color: t.text, fontWeight: 600 }}>AI-powered applications</span>.
-            Backend-focused, but fluent across the full stack — from Node.js services to React
-            frontends and RAG pipelines.
+            Backend-focused, but comfortable across the full stack — from Node.js and
+            Firebase services to React frontends, PostgreSQL, data pipelines, and
+            RAG/LLM applications.
           </p>
 
           {/* CTA buttons */}
@@ -416,39 +424,35 @@ export default function HeroContent({ theme }) {
             width: "100%",
           }}
         >
-          {/* Corner bracket frame */}
-          <div style={{ position: "relative", width: "100%", animation: "float 5s ease-in-out infinite" }}>
-            {/* Top-left corner */}
-            <div style={{ position: "absolute", top: -10, left: -10, zIndex: 2 }}>
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M2 26 L2 2 L26 2" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
-              </svg>
-            </div>
-            {/* Bottom-right corner */}
-            <div style={{ position: "absolute", bottom: -10, right: -10, zIndex: 2 }}>
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M26 2 L26 26 L2 26" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
-              </svg>
-            </div>
-            {/* Top-right corner (subtle) */}
-            <div style={{ position: "absolute", top: -10, right: -10, zIndex: 2, opacity: 0.35 }}>
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M2 2 L26 2 L26 26" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
-              </svg>
-            </div>
-            {/* Bottom-left corner (subtle) */}
-            <div style={{ position: "absolute", bottom: -10, left: -10, zIndex: 2, opacity: 0.35 }}>
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M26 26 L2 26 L2 2" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
-              </svg>
-            </div>
+          {/* Corner bracket frame.
+              .hero-frame IS the image box (the old wrapper stood 45px taller
+              than the photo, which left the two top brackets hanging in empty
+              space). The offset that used to sit on the image now sits here. */}
+          <div
+            className="hero-frame"
+            style={{ marginTop: 45, animation: "float 6s ease-in-out infinite" }}
+          >
+            {/* Accent halo bleeding out behind the frame */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: -22,
+                borderRadius: 24,
+                background: `radial-gradient(58% 52% at 50% 42%, ${t.accent}1C, transparent 72%)`,
+                filter: "blur(14px)",
+                pointerEvents: "none",
+                zIndex: 0,
+              }}
+            />
 
             {/* Portrait image */}
             <div
               style={{
-                borderRadius: 4,
+                borderRadius: 6,
                 overflow: "hidden",
                 position: "relative",
+                zIndex: 1,
                 border: `1px solid ${t.frameBorder}`,
                 boxShadow: t.frameGlow,
                 background:
@@ -457,14 +461,12 @@ export default function HeroContent({ theme }) {
                     : "radial-gradient(circle at 30% 20%, rgba(236,231,220,0.96), rgba(220,212,198,0.96) 60%, rgba(193,183,168,1) 100%)",
                 aspectRatio: "3/4",
                 width: "100%",
-                marginTop: 45,
               }}
             >
-              <img
-                src={portrait}
-                alt="Chekole Ngusalem"
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
-              />
+              <img src={portrait} alt="Chekole Ngusalem" className="hero-frame-img" />
+
+              {/* Bottom scrim — gives the "Open to work" chip a ground to sit
+                  on, and anchors the portrait instead of letting it float. */}
               <div
                 style={{
                   position: "absolute",
@@ -472,11 +474,46 @@ export default function HeroContent({ theme }) {
                   pointerEvents: "none",
                   background:
                     theme === "dark"
-                      ? "linear-gradient(165deg, rgba(32,32,32,0.28), rgba(140,140,140,0.22))"
-                      : "linear-gradient(165deg, rgba(215,205,190,0.34), rgba(165,152,134,0.26))",
-                  mixBlendMode: "multiply",
+                      ? "linear-gradient(180deg, transparent 48%, rgba(10,10,10,0.62) 100%)"
+                      : "linear-gradient(180deg, transparent 52%, rgba(60,48,36,0.34) 100%)",
                 }}
               />
+
+              {/* Inner hairline keeps the edge crisp against the page aurora */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  borderRadius: 6,
+                  boxShadow:
+                    theme === "dark"
+                      ? "inset 0 0 0 1px rgba(255,255,255,0.06)"
+                      : "inset 0 0 0 1px rgba(0,0,0,0.05)",
+                }}
+              />
+            </div>
+
+            {/* Corner brackets — now flush to the four corners of the photo */}
+            <div className="hero-frame-corner hero-frame-corner-tl" style={{ top: -10, left: -10 }}>
+              <svg width="30" height="30" viewBox="0 0 28 28" fill="none">
+                <path d="M2 26 L2 2 L26 2" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
+              </svg>
+            </div>
+            <div className="hero-frame-corner hero-frame-corner-br" style={{ bottom: -10, right: -10 }}>
+              <svg width="30" height="30" viewBox="0 0 28 28" fill="none">
+                <path d="M26 2 L26 26 L2 26" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
+              </svg>
+            </div>
+            <div className="hero-frame-corner hero-frame-corner-tr" style={{ top: -10, right: -10, opacity: 0.35 }}>
+              <svg width="30" height="30" viewBox="0 0 28 28" fill="none">
+                <path d="M2 2 L26 2 L26 26" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
+              </svg>
+            </div>
+            <div className="hero-frame-corner hero-frame-corner-bl" style={{ bottom: -10, left: -10, opacity: 0.35 }}>
+              <svg width="30" height="30" viewBox="0 0 28 28" fill="none">
+                <path d="M26 26 L2 26 L2 2" stroke={t.cornerColor} strokeWidth="2.5" strokeLinecap="square" fill="none" />
+              </svg>
             </div>
 
             {/* "Open to work" floating chip */}
@@ -488,6 +525,7 @@ export default function HeroContent({ theme }) {
                 transform: "translateX(-50%)",
                 background: theme === "dark" ? "rgba(17,17,17,0.88)" : "rgba(255,255,255,0.88)",
                 backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
                 border: `1px solid ${t.borderAccent}`,
                 borderRadius: 999,
                 padding: "5px 14px",

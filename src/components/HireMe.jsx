@@ -184,7 +184,7 @@ export default function HireMe({ theme = "dark" }) {
       id="hire-me"
       style={{
         fontFamily: "'Sora', 'DM Sans', sans-serif",
-        background: t.bg,
+        background: "transparent",
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",

@@ -125,10 +125,12 @@ export default function Feedback({ theme = "dark" }) {
     <section
       id="feedback"
       style={{
-        background: t.bg,
+        background: "transparent",
         padding: "72px 0 80px",
         fontFamily: "'Sora', sans-serif",
         width: "100%",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <style>{`
@@ -203,7 +205,7 @@ export default function Feedback({ theme = "dark" }) {
         }
       `}</style>
 
-      <div className="feedback-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)" }}>
+      <div className="feedback-shell" style={{ width: "100%", margin: 0, padding: "0 clamp(20px, 4vw, 40px)", position: "relative", zIndex: 1 }}>
         <div style={{ marginBottom: "2.2rem" }}>
           <div style={{
             display: "inline-flex",

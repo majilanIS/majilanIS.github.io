@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import "./App.css";
 
+import PageBackdrop from "./components/PageBackdrop";
 import Sidebar from "./components/Sidebar";
 import AboutPage from "./components/About";
 import HeroContent from "./components/HeroContent";
@@ -85,6 +86,9 @@ function App() {
   return (
     <>
      <div>
+       {/* One continuous background for every section — see PageBackdrop */}
+       <PageBackdrop theme={theme} accent={THEMES[theme].accent} />
+
        <Sidebar theme={theme} setTheme={setTheme} />
 
         <div className="main-content">
