@@ -139,7 +139,7 @@ const PROJECTS = [
     description: "An assistant that takes both text and voice input. Built with colleagues during a 6-day RAG workshop. The repo has no README yet — the deployed app is the best look at it.",
     tags: ["JavaScript", "Python", "CSS", "Docker"],
     githubUrl: "https://github.com/majilanIS/Adwa-AI-Assistant",
-    liveUrl: "https://adwa-ai-assistant-in-text-or-voice.vercel.app",
+    liveUrl: "https://adwa-ai-assistant-iota.vercel.app",
   },
   {
     id: "fraud-detection",
